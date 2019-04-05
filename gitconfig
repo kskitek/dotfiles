@@ -1,0 +1,18 @@
+[user]
+	email = krzysztof.skitek@gmail.com
+	name = Krzysztof Skitek
+[help]
+	autocorrect = 10
+[commit]
+	template = /home/krzysztof/.dotfiles/commit-template
+[core]
+	editor = vim
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+[url "git@gitlab.com:"]
+	insteadOf = https://gitlab.com/
+[diff "sopsdiffer"]
+	textconv = sops -d
+[alias]
+	lsd = log --oneline --graph --decorate
+	pushf = push --force-with-lease

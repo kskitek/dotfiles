@@ -1,0 +1,12 @@
+[submodule "z"]
+	path = z
+	url = git@github.com:rupa/z.git
+[submodule "vim/pack/plugins/start/vim-go"]
+	path = vim/pack/plugins/start/vim-go
+	url = https://github.com/fatih/vim-go
+[submodule "vim/pack/plugins/start/lightline"]
+	path = vim/pack/plugins/start/lightline
+	url = https://github.com/itchyny/lightline.vim
+[submodule "vim/pack/plugins/start/ctrlp"]
+	path = vim/pack/plugins/start/ctrlp
+	url = https://github.com/kien/ctrlp.vim
