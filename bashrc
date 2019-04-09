@@ -56,7 +56,7 @@ export NVM_DIR="$HOME/.nvm"
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-export $EDITOR=vim
+export $EDITOR vim
 
 #export SOPS_GPG_FP=“C2E434269F6AE6EDC89DA93CD8DE6BAEBAC09957”
 
@@ -137,3 +137,4 @@ source <(kubectl completion bash)
 . ~/.dotfiles/z/z.sh
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
