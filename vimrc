@@ -7,6 +7,7 @@ nnoremap k kzz
 
 " nrformats-=octal
 set nrformats= " set nr format to decimal. Default is octal
+" remove timeout for mode switching with ESC
 set timeout ttimeout timeoutlen=1000 ttimeoutlen=0
 
 " BUFFERS
@@ -14,6 +15,7 @@ set timeout ttimeout timeoutlen=1000 ttimeoutlen=0
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
 nnoremap <C-X> :bdelete<CR>
+" see also CtrlPBuffer
 set autowrite
 
 " HL AND SEARCH
