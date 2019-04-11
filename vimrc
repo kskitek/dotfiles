@@ -1,4 +1,4 @@
-" MOVEMENT
+" movEMENT
 
 nnoremap j jzz
 nnoremap k kzz
@@ -21,6 +21,7 @@ set autowrite
 " HL AND SEARCH
 
 set relativenumber
+set numberwidth=4
 set colorcolumn=90,110
 "let &colorcolumn=join(range(81,999),",")
 highlight ColorColumn ctermbg=darkgray guibg=darkgray
@@ -38,10 +39,14 @@ nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 filetype plugin on
 syntax on
 
-
 " lightline
 set laststatus=2
 
 " ctrlP
 nmap <Leader>b :CtrlPBuffer<CR>
 nmap <C-E> :CtrlPBuffer<CR>
+
+" tagbar
+nmap <F8> :TagbarToggle<CR>
+autocmd FileType go :TagbarToggle
+autocmd FileType markdown :TagbarToggle
