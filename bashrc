@@ -77,6 +77,7 @@ alias doc-wf="docker run -p 8080:8080 -p 9990:9990 kskitek/wildfly_dev"
 ### Utility aliases
 alias srv="python -m SimpleHTTPServer 8000"
 
+alias cd..='cd ..'
 alias ll='ls -lah'
 alias lls='ls -lah | sort -h -k5'
 #alias ls=exa

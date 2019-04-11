@@ -20,8 +20,8 @@ set autowrite
 
 " HL AND SEARCH
 
-set relativenumber
-set numberwidth=4
+set number relativenumber
+set numberwidth=5
 set colorcolumn=90,110
 "let &colorcolumn=join(range(81,999),",")
 highlight ColorColumn ctermbg=darkgray guibg=darkgray

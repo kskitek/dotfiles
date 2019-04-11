@@ -19,3 +19,6 @@
 [submodule "vim/pack/plugins/start/tagbar-markdown"]
 	path = vim/pack/plugins/start/tagbar-markdown
 	url = https://github.com/lvht/tagbar-markdown
+[submodule "vim/pack/plugins/start/plantuml-syntax"]
+	path = vim/pack/plugins/start/plantuml-syntax
+	url = https://github.com/aklt/plantuml-syntax
