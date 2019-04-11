@@ -56,6 +56,7 @@ export NVM_DIR="$HOME/.nvm"
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
+export KITTY_CONFIG_DIRECTORY=~/.dotfiles/kitty/kitty.conf
 export $EDITOR vim
 
 #export SOPS_GPG_FP=“C2E434269F6AE6EDC89DA93CD8DE6BAEBAC09957”
@@ -85,6 +86,10 @@ alias c="xclip -sel clip"
 alias k=kubectl
 alias watch='watch '
 alias o='vim `fzf`'
+# kitty aliasses
+alias icat="kitty +kitten icat"
+alias kdiff="git difftool --no-symlinks --dir-diff"
+
 
 ### K8s aliases
 alias krestarts="kubectl get pod --sort-by=.status.containerStatuses[0].restartCount"
@@ -134,8 +139,9 @@ if [ -f '/home/krzysztof/.gcloud/path.bash.inc' ]; then source '/home/krzysztof/
 if [ -f '/home/krzysztof/.gcloud/completion.bash.inc' ]; then source '/home/krzysztof/.gcloud/completion.bash.inc'; fi
 source <(kubectl completion bash)
 
+source <(kitty + complete setup bash)
+
 ## Misc tools
 . ~/.dotfiles/z/z.sh
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-

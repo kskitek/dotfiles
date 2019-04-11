@@ -50,3 +50,9 @@ nmap <C-E> :CtrlPBuffer<CR>
 nmap <F8> :TagbarToggle<CR>
 autocmd FileType go :TagbarToggle
 autocmd FileType markdown :TagbarToggle
+
+let base16colorspace=256
+" if filereadable(expand("~/.vimrc_background"))
+"   let base16colorspace=256
+"   source ~/.vimrc_background
+" endif
