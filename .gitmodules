@@ -22,3 +22,6 @@
 [submodule "vim/pack/plugins/start/plantuml-syntax"]
 	path = vim/pack/plugins/start/plantuml-syntax
 	url = https://github.com/aklt/plantuml-syntax
+[submodule "vim/pack/plugins/start/dart-vim-plugin"]
+	path = vim/pack/plugins/start/dart-vim-plugin
+	url = https://github.com/dart-lang/dart-vim-plugin
