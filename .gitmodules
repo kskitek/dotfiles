@@ -25,3 +25,6 @@
 [submodule "vim/pack/plugins/start/dart-vim-plugin"]
 	path = vim/pack/plugins/start/dart-vim-plugin
 	url = https://github.com/dart-lang/dart-vim-plugin
+[submodule "vim/pack/plugins/start/vim-fugitive"]
+	path = vim/pack/plugins/start/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive
