@@ -31,3 +31,6 @@
 [submodule "vim/pack/plugins/start/vim-minizinc"]
 	path = vim/pack/plugins/start/vim-minizinc
 	url = https://github.com/vale1410/vim-minizinc
+[submodule "vim/pack/plugins/start/typescript-vim"]
+	path = vim/pack/plugins/start/typescript-vim
+	url = https://github.com/leafgarland/typescript-vim.git

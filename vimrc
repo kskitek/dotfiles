@@ -17,6 +17,9 @@ set expandtab smarttab
 
 set backspace=indent,eol,start
 
+set noswapfile
+set nobackup
+
 " use system copy clipboard
 set clipboard=unnamed
 
@@ -81,6 +84,8 @@ nmap <C-E> :CtrlPBuffer<CR>
 " tagbar
 nmap <F8> :TagbarToggle<CR>
 
+" typescript-vim
+let g:typescript_indent_disable = 1
 
 let base16colorspace=256
 " if filereadable(expand("~/.vimrc_background"))

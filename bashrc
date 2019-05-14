@@ -85,6 +85,7 @@ alias c="xclip -sel clip"
 alias k=kubectl
 alias watch='watch '
 alias o='vim `fzf`'
+alias v=vim
 
 
 ### K8s aliases
