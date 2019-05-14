@@ -20,6 +20,13 @@ set backspace=indent,eol,start
 " use system copy clipboard
 set clipboard=unnamed
 
+" SEARCH
+
+set wildmenu
+set path=**
+set wildignore+=node_modules/*,.git
+
+
 " RANDOM SHORTCUTS
 nmap ! :!
 

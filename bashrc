@@ -38,11 +38,11 @@ fi
 PS1='\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h: \[\033[0;94m\]\[$( kubectl config current-context | sed "s/^/k8s:[/" | sed "s/$/]/" )\]\[\033[0m\]\[\033[0;32m\]$( git branch 2> /dev/null | cut -f2 -d\* -s | sed "s/^ / git:[/" | sed "s/$/]/" ) \[\033[33;1m\]\w\[\033[0m\]\n λ '
 
 ## Exports
-export PATH=$PATH:~/go/bin
 export PATH=$PATH:~/.scripts:~/.scripts/FlameGraph
 export PATH=/home/krzysztof/.local/bin:$PATH
 export PATH=/usr/local/bin:$PATH
 
+# golang
 export GO111MODULE=on
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
@@ -50,14 +50,13 @@ export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 export GIT_TERMINAL_PROMPT=1
 
+# nodejs
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-export KITTY_CONFIG_DIRECTORY=~/.dotfiles/kitty/kitty.conf
-export $EDITOR vim
+export EDITOR=vim
 
 #export SOPS_GPG_FP=“C2E434269F6AE6EDC89DA93CD8DE6BAEBAC09957”
 
@@ -86,9 +85,6 @@ alias c="xclip -sel clip"
 alias k=kubectl
 alias watch='watch '
 alias o='vim `fzf`'
-# kitty aliasses
-alias icat="kitty +kitten icat"
-alias kdiff="git difftool --no-symlinks --dir-diff"
 
 
 ### K8s aliases
@@ -102,15 +98,13 @@ alias klog="kubectl get pod -o=name | fzf | xargs kubectl logs -f"
 alias golist="go list -f ‘{{ join .Imports \“\n\” }}’ ./... | sort | uniq"
 alias awslogin="aws ecr get-login --region us-east-1 --no-include-email | sh"
 
-alias enter_matrix='echo -e "\e[32m"; while :; do for i in {1..40}; do r="$(($RANDOM % 2))"; if [[ $(($RANDOM % 5)) == 1 ]]; then if [[ $(($RANDOM % 4)) == 1 ]]; then v+="\e[1m $r   "; else v+="\e[2m $r   "; fi; else v+="     "; fi; done; echo -e "$v"; v=""; done'
-
 ### Lerta aliases
 alias lprod="kubectl config use-context lerta-prod"
 alias ldev="kubectl config use-context lerta-dev"
 
-
 ## Bash options
 shopt -s cdspell                 # Correct cd typos
+shopt -s autocd                  # Auto jump to dir with just a name of a dir (no "cd")
 shopt -s checkwinsize            # Update windows size on command
 shopt -s histappend              # Append History instead of overwriting file
 shopt -s cmdhist                 # Bash attempts to save all lines of a multiple-line command in the same history entry
@@ -138,8 +132,6 @@ if [ -f '/home/krzysztof/.gcloud/path.bash.inc' ]; then source '/home/krzysztof/
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/krzysztof/.gcloud/completion.bash.inc' ]; then source '/home/krzysztof/.gcloud/completion.bash.inc'; fi
 source <(kubectl completion bash)
-
-source <(kitty + complete setup bash)
 
 ## Misc tools
 . ~/.dotfiles/z/z.sh
