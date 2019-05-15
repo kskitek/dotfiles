@@ -4,38 +4,10 @@ case $- in
       *) return;;
 esac
 
+set -o vi
+
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
-esac
-unset color_prompt force_color_prompt
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
-
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
-# colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-#PS1='\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h: \[\033[0;94m\]\[$( kubectl config current-context | sed "s/^/k8s: [/" | sed "s/$/]/" )\]\[\033[0m\]\[\033[0;32m\]$( git branch 2> /dev/null | cut -f2 -d\* -s | sed "s/^ / git: [/" | sed "s/$/]/" )\n\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h: \[\033[33;1m\]\w\[\033[0m\] \$ '
-PS1='\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h: \[\033[0;94m\]\[$( kubectl config current-context | sed "s/^/k8s:[/" | sed "s/$/]/" )\]\[\033[0m\]\[\033[0;32m\]$( git branch 2> /dev/null | cut -f2 -d\* -s | sed "s/^ / git:[/" | sed "s/$/]/" ) \[\033[33;1m\]\w\[\033[0m\]\n λ '
 
 ## Exports
 export PATH=$PATH:~/.scripts:~/.scripts/FlameGraph
@@ -58,12 +30,15 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 export EDITOR=vim
 
-#export SOPS_GPG_FP=“C2E434269F6AE6EDC89DA93CD8DE6BAEBAC09957”
-
+export SOPS_GPG_FP="C2E434269F6AE6EDC89DA93CD8DE6BAEBAC09957"
 
 ## Aliases
-mkcd ()
-{
+pmdr() {
+    echo $1*60 | bc | xargs sleep && notify-send "🍅🍅🍅" &&
+        [ $(echo -e "y\nn" | dmenu -i -p "PMDR?") == "y" ] && pmdr
+}
+
+mkcd () {
 	mkdir -p "$1"
 	cd -P "$1"
 }
@@ -73,19 +48,23 @@ mkcd ()
 alias doc-puml="docker run -d --rm -p 12130:8080 plantuml/plantuml-server:tomcat"
 alias doc-cadvisor="sudo docker run --rm -d --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro --publish=8090:8080  google/cadvisor:latest && echo http://localhost:8090"
 alias doc-wf="docker run -p 8080:8080 -p 9990:9990 kskitek/wildfly_dev"
+alias doc-chrono='docker run -it --rm -p 8888:8888 --net="host" chronograf:1.7.3-alpine'
 
 ### Utility aliases
 alias srv="python -m SimpleHTTPServer 8000"
+alias open="xdg-open"
 
 alias cd..='cd ..'
 alias ll='ls -lah'
 alias lls='ls -lah | sort -h -k5'
-#alias ls=exa
 alias c="xclip -sel clip"
 alias k=kubectl
-alias watch='watch '
 alias o='vim `fzf`'
 alias v=vim
+alias cp="rsync --archive --human-readable --progress --verbose --whole-file"
+
+alias wtr='http -b wttr.in/Poznań?format=3'
+alias wtrl='http -b wttr.in | head -n38'
 
 
 ### K8s aliases
@@ -93,13 +72,13 @@ alias krestarts="kubectl get pod --sort-by=.status.containerStatuses[0].restartC
 alias kstarts='kubectl get pod --sort-by=.status.startTime'
 alias kstarted="kubectl get pod --sort-by=.status.containerStatuses[0].state.running.startedAt"
 alias kpod="kubectl get pod | fzf"
-alias klog="kubectl get pod -o=name | fzf | xargs kubectl logs -f"
+alias klog="kubectl get pod -o=name | fzf | xargs kubectl logs -f --tail=200"
 
-### Programming aliases
-alias golist="go list -f ‘{{ join .Imports \“\n\” }}’ ./... | sort | uniq"
+alias golist="go list -f '{{ join .Imports \"\n\" }}' ./... | sort | uniq"
 alias awslogin="aws ecr get-login --region us-east-1 --no-include-email | sh"
 
 ### Lerta aliases
+# TODO source alias files dynamically from .dotfiles folder
 alias lprod="kubectl config use-context lerta-prod"
 alias ldev="kubectl config use-context lerta-dev"
 
@@ -116,9 +95,6 @@ HISTCONTROL=ignoreboth
 
 
 ## Completion
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion
@@ -131,10 +107,45 @@ fi
 if [ -f '/home/krzysztof/.gcloud/path.bash.inc' ]; then source '/home/krzysztof/.gcloud/path.bash.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/home/krzysztof/.gcloud/completion.bash.inc' ]; then source '/home/krzysztof/.gcloud/completion.bash.inc'; fi
+# if [ -f '/home/krzysztof/.gcloud/completion.bash.inc' ]; then source '/home/krzysztof/.gcloud/completion.bash.inc'; fi
 source <(kubectl completion bash)
 
 ## Misc tools
 . ~/.dotfiles/z/z.sh
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+## Colors
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+unset color_prompt force_color_prompt
+
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+
+## Coloured man pages
+export LESS_TERMCAP_mb=$'\e[1;32m'
+export LESS_TERMCAP_md=$'\e[1;32m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[01;33m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[1;4;31m'
+
+# ps1() {
+    # local k8sContext=$(kubectl config current-context | sed "s/^/k8s:[/" | sed "s/$/]/")
+    # local gitBranch=$( git branch 2> /dev/null | cut -f2 -d\* -s | sed "s/^ / git:[/" | sed "s/$/]/" )
+    # PS1="\[\033[0;94m\]\[$k8sContext\]\[\033[0m\]\[\033[0;32m\]$gitBranch \[\033[33;1m\]\w\[\033[0m\]\n λ "
+# }
+# COMMAND_PROMPT=ps1
+
+PS1='\[\033[0;94m\]\[$(  kubectl config current-context | sed "s/^/k8s:[/" | sed "s/$/]/" )\]\[\033[0m\]\[\033[0;32m\]$( git branch 2> /dev/null | cut -f2 -d\* -s | sed "s/^ / git:[/" | sed "s/$/]/" ) \[\033[33;1m\]\w\[\033[0m\]\n λ '
+
+# BASE16_SHELL="$HOME/.config/base16-shell/"
+# [ -n "$PS1" ] && \
+#     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+#         eval "$("$BASE16_SHELL/profile_helper.sh")"
+

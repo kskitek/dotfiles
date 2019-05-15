@@ -1,9 +1,6 @@
 [submodule "z"]
 	path = z
 	url = git@github.com:rupa/z.git
-[submodule "vim/pack/plugins/start/vim-go"]
-	path = vim/pack/plugins/start/vim-go
-	url = https://github.com/fatih/vim-go
 [submodule "vim/pack/plugins/start/lightline"]
 	path = vim/pack/plugins/start/lightline
 	url = https://github.com/itchyny/lightline.vim
@@ -25,12 +22,12 @@
 [submodule "vim/pack/plugins/start/dart-vim-plugin"]
 	path = vim/pack/plugins/start/dart-vim-plugin
 	url = https://github.com/dart-lang/dart-vim-plugin
-[submodule "vim/pack/plugins/start/vim-fugitive"]
-	path = vim/pack/plugins/start/vim-fugitive
-	url = https://github.com/tpope/vim-fugitive
 [submodule "vim/pack/plugins/start/vim-minizinc"]
 	path = vim/pack/plugins/start/vim-minizinc
 	url = https://github.com/vale1410/vim-minizinc
 [submodule "vim/pack/plugins/start/typescript-vim"]
 	path = vim/pack/plugins/start/typescript-vim
 	url = https://github.com/leafgarland/typescript-vim.git
+[submodule "vim/pack/plugins/opt/govim"]
+	path = vim/pack/plugins/opt/govim
+	url = git@github.com:myitcv/govim.git

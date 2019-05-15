@@ -4,15 +4,21 @@ set nocompatible
 
 nnoremap j jzz
 nnoremap k kzz
+vmap < <gv
+vmap > >gv
+nnoremap H ^
+nnoremap L $
 
 " MISCLEANUOUS
+
+let base15colorspace=256
 
 " nrformats-=octal
 set nrformats= " set nr format to decimal. Default is octal
 " remove timeout for mode switching with ESC
-set timeout ttimeout timeoutlen=1000 ttimeoutlen=0
+set timeout ttimeout timeoutlen=999 ttimeoutlen=0
 
-set tabstop=4 softtabstop=0 shiftwidth=4
+set tabstop=3 softtabstop=0 shiftwidth=4
 set expandtab smarttab
 
 set backspace=indent,eol,start
@@ -21,7 +27,7 @@ set noswapfile
 set nobackup
 
 " use system copy clipboard
-set clipboard=unnamed
+" set clipboard=unnamed
 
 " SEARCH
 
@@ -29,37 +35,56 @@ set wildmenu
 set path=**
 set wildignore+=node_modules/*,.git
 
+set incsearch
+set hlsearch
+
+if executable('ag')
+    set grepprg=ag\ --nogroup\ --nocolor
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    let g:ctrlp_use_caching = 0
+endif
+
 
 " RANDOM SHORTCUTS
 nmap ! :!
+nnoremap <silent> <Leader>- :vertical resize +9<CR>
+nnoremap <silent> <Leader>= :vertical resize -9<CR>
+
+nmap <C-k> :make test
+nmap <C-r> :make build run
 
 " BUFFERS
 
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
-nnoremap <C-X> :bdelete<CR>
+nnoremap <leader>x :bdelete<CR>
 " see also CtrlPBuffer
 set autowrite
 
-" HL AND SEARCH
+" HL
 
 set number relativenumber
-set numberwidth=5
-set colorcolumn=90,110
-"let &colorcolumn=join(range(81,999),",")
-highlight ColorColumn ctermbg=darkgray guibg=darkgray
+set numberwidth=4
 
 set cursorline
-hi CursorColumn cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkgray guifg=white
-hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkgray guifg=white
+hi CursorColumn ctermbg=gray ctermfg=black
+hi Cursor ctermbg=magenta ctermfg=magenta
+hi CursorLine ctermbg=gray ctermfg=black
+hi Visual cterm=reverse ctermbg=NONE
+highlight OverLength cterm=reverse
+match OverLength /\%89v.\+/
 
-set incsearch
-set hlsearch
 " Press Space to turn off highlighting and clear any message already displayed.
-nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+nnoremap <silent> <space> :nohlsearch<Bar>:echo<CR>
 
 " PER FileType SETTINGS
-autocmd FileType go :TagbarToggle
+augroup golang
+    autocmd!
+    packadd govim
+    autocmd FileType go :TagbarToggle
+    " autocmd FileType go TODO !find * -type f -name "*.go" | entr make test
+augroup END
+
 autocmd FileType markdown :TagbarToggle
 autocmd BufWritePre,BufRead *.env.local :set filetype=sh
 
@@ -68,11 +93,17 @@ autocmd BufWritePre,BufRead *.env.local :set filetype=sh
 filetype plugin on
 syntax on
 
+packadd matchit
+
 " netrw
 let g:netrw_banner = 0
-let g:netrw_liststyle = 3
+let g:netrw_liststyle = 5
 let g:netrw_winsize = 25
 nmap <C-B> :Lexplore<CR>
+
+" quickfix
+map <F2> :cnext<CR>
+map <S-F2> :cnext<CR>
 
 " lightline
 set laststatus=2
@@ -87,8 +118,23 @@ nmap <F8> :TagbarToggle<CR>
 " typescript-vim
 let g:typescript_indent_disable = 1
 
-let base16colorspace=256
-" if filereadable(expand("~/.vimrc_background"))
-"   let base16colorspace=256
-"   source ~/.vimrc_background
-" endif
+" vim-commentary
+vnoremap <C-x> :Commentary<CR>
+nnoremap <C-x> :Commentary<CR>j
+
+" govim
+" minimal govim settings
+set nocompatible
+set nobackup
+set nowritebackup
+set noswapfile
+" set mouse=a
+" set ttymouse=sgr
+set updatetime=500
+" set balloondelay=250
+" custom govim
+" setlocal balloonexpr=GOVIMBalloonExpr()
+setlocal omnifunc=GOVIMComplete
+nmap <buffer> <Leader>h : <C-u>echo GOVIMHover()<CR>
+" default mappings are overwriten in vim/after/ftplugin/go.vim
+
