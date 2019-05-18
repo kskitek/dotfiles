@@ -101,6 +101,7 @@ set number relativenumber
 set numberwidth=4
 
 set cursorline
+set cursorcolumn
 hi CursorColumn ctermbg=gray ctermfg=black
 hi CursorLine ctermbg=gray ctermfg=black
 hi Cursor ctermbg=magenta ctermfg=magenta
@@ -203,4 +204,6 @@ nmap <buffer> <leader>h :<C-u>echo GOVIMHover()<CR>
 " default mappings are overwriten in vim/after/ftplugin/go.vim
 "" }}}
 
+source vim/pack/plugins/hudigraphs_utf8.vim
+inoremap <expr>  <C-K>   HUDG_GetDigraph()
 "" }}}
