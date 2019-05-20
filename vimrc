@@ -87,7 +87,6 @@ nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
 nnoremap <leader>x :bdelete<CR>
 " see also CtrlPBuffer
-set autowrite
 set noequalalways
 
 "" }}}
@@ -121,6 +120,8 @@ nnoremap <silent> <space> :nohlsearch<Bar>:echo<CR>
 "" FOLDING {{{
 set foldmethod=syntax
 set foldlevelstart=99
+" This allows to fold only top level (functions)
+set foldnestmax=1
 " set foldmethod=indent
 " set foldclose=all
 
@@ -159,8 +160,9 @@ nmap <leader>pl :set spelllang=pl<CR>
 " netrw {{{
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
-let g:netrw_winsize = 25
-nmap <C-B> :Lexplore<CR>
+let g:netrw_winsize = 20
+" open directory of current file - just like :Sex but in left split
+nmap <C-B> :Lexplore `dirname %`<CR>
 "" }}}
 
 "" quickfix {{{
@@ -204,6 +206,6 @@ nmap <buffer> <leader>h :<C-u>echo GOVIMHover()<CR>
 " default mappings are overwriten in vim/after/ftplugin/go.vim
 "" }}}
 
-source vim/pack/plugins/hudigraphs_utf8.vim
+source ~/.dotfiles/vim/pack/plugins/hudigraphs_utf8.vim
 inoremap <expr>  <C-K>   HUDG_GetDigraph()
 "" }}}
