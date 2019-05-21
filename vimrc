@@ -3,8 +3,24 @@
 set nocompatible
 set encoding=utf-8
 
-" To open a fold type za or zR to open all folds
+" To open a fold type za or zR to open all folds.
+" Remember to not put any settings you don't understand in your .vimrc.
+" In case you don't understand what given setting does, type `:help
+" <setting>` - vim has pretty good help.
 
+" In case something is fundamentally not working check if vim is linked.
+" Next step is to comment out all experimental options.
+
+"" EXPERIMENTAL {{{
+
+" set statusline=%=%m\ %c\ %P\ %f\
+set wildmode=longest:full,full
+
+set ttyfast
+set ttimeout
+set ttimeoutlen=50
+set showcmd
+"" }}}
 "" MOVEMENT {{{
 
 nnoremap j jzz
@@ -101,6 +117,7 @@ set numberwidth=4
 
 set cursorline
 set cursorcolumn
+set colorcolumn=90
 hi CursorColumn ctermbg=gray ctermfg=black
 hi CursorLine ctermbg=gray ctermfg=black
 hi Cursor ctermbg=magenta ctermfg=magenta
