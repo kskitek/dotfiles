@@ -20,6 +20,12 @@ set ttyfast
 set ttimeout
 set ttimeoutlen=50
 set showcmd
+" set textwidth=90
+" set wrap
+" automatically wrap
+" set formatoptions+=t
+set clipboard=unnamedplus
+
 "" }}}
 "" MOVEMENT {{{
 
@@ -44,10 +50,7 @@ set timeout ttimeout timeoutlen=999 ttimeoutlen=0
 set tabstop=2 softtabstop=2 shiftwidth=2
 set expandtab smarttab
 
-" set textwidth=90
-" set wrap
-" automatically wrap
-" set formatoptions+=t
+set nowrap
 
 set backspace=indent,eol,start
 
@@ -87,6 +90,9 @@ nmap ! :!
 nmap <leader>; yy:<C-f>p<CR>
 nnoremap <silent> <Leader>- :vertical resize +9<CR>
 nnoremap <silent> <Leader>= :vertical resize -9<CR>
+
+vnoremap <leader>d c<c-r>=system('base64 --decode', @")<cr><esc>gv
+vnoremap <leader>e c<c-r>=system('base64 -w 0', @")<cr><esc>gv
 
 " nmap <C-k> :make test
 " nmap <C-j> :make build run
@@ -179,7 +185,8 @@ let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_winsize = 20
 " open directory of current file - just like :Sex but in left split
-nmap <C-B> :Lexplore `dirname %`<CR>
+" nmap <C-B> :Lexplore `dirname %`<CR>
+nmap <C-B> :Lexplore<CR>
 "" }}}
 
 "" quickfix {{{

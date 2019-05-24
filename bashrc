@@ -62,6 +62,7 @@ alias k=kubectl
 alias o='vim `fzf`'
 alias v=vim
 alias cp="rsync --archive --human-readable --progress --verbose --whole-file"
+alias ranger=". ranger"
 
 alias wtr='http -b wttr.in/Poznań?format=3'
 alias wtrl='http -b wttr.in | head -n38'
