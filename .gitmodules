@@ -34,3 +34,6 @@
 [submodule "vim/pack/plugins/start/gruvbox"]
 	path = vim/pack/plugins/start/gruvbox
 	url = https://github.com/morhetz/gruvbox
+[submodule "vim/pack/plugins/opt/vim-delve"]
+	path = vim/pack/plugins/opt/vim-delve
+	url = https://github.com/sebdah/vim-delve

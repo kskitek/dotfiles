@@ -67,6 +67,7 @@ alias ranger=". ranger"
 alias wtr='http -b wttr.in/Poznań?format=3'
 alias wtrl='http -b wttr.in | head -n38'
 
+alias br='dlv connect :2345'
 
 ### K8s aliases
 alias krestarts="kubectl get pod --sort-by=.status.containerStatuses[0].restartCount"

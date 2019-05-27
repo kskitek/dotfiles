@@ -26,6 +26,14 @@ set showcmd
 " set formatoptions+=t
 set clipboard=unnamedplus
 
+" delve experimental mappings
+" start debugger
+nmap <silent> <leader>s :let p=test<CR>system("dlv exec p --headless --listen=:2345 --log --accept-multiclient > /tmp/$(date +%s)&"<CR>:echo "Started at :2345"<CR>
+" set breakpoint
+" nmap <silent> <leader>d !dlv connect --init f
+sign define delve_breakpoint text=●
+" nmap <silent> <leader>D
+
 "" }}}
 "" MOVEMENT {{{
 
