@@ -14,17 +14,13 @@ set encoding=utf-8
 "" EXPERIMENTAL {{{
 
 " set statusline=%=%m\ %c\ %P\ %f\
-set wildmode=longest:full,full
 
 set ttyfast
 set ttimeout
 set ttimeoutlen=50
 set showcmd
-" set textwidth=90
-" set wrap
-" automatically wrap
 " set formatoptions+=t
-set clipboard=unnamedplus
+noremap <leader><leader> <C-W><C-w>
 
 " delve experimental mappings
 " start debugger
@@ -33,6 +29,12 @@ nmap <silent> <leader>s :let p=test<CR>system("dlv exec p --headless --listen=:2
 " nmap <silent> <leader>d !dlv connect --init f
 sign define delve_breakpoint text=●
 " nmap <silent> <leader>D
+
+"" }}}
+"" CLIPBOARD {{{
+set clipboard=unnamedplus
+vnoremap y "+y
+" vnoremap d "+d
 
 "" }}}
 "" MOVEMENT {{{
@@ -74,6 +76,7 @@ set nobackup
 set wildmenu
 set path=**
 set wildignore+=node_modules/*,.git
+set wildmode=longest:full,full
 
 set incsearch
 set hlsearch
@@ -157,6 +160,11 @@ set foldnestmax=1
 " set foldclose=all
 
 "" }}}
+"" LINE WRAPPING {{{
+" set textwidth=90
+" set wrap
+" automatically wrap
+"" }}}
 "" FileType FT SETTINGS {{{
 augroup golang
   autocmd!
@@ -210,11 +218,13 @@ nmap <Leader>b :CtrlPBuffer<CR>
 nmap <C-E> :CtrlPBuffer<CR>
 "" }}}
 
-"" tagbar
+"" tagbar {{{
 nmap <F8> :TagbarToggle<CR>
+"" }}}
 
-"" typescript-vim
+"" typescript-vim {{{
 let g:typescript_indent_disable = 1
+"" }}}
 
 "" vim-commentary {{{
 vnoremap <C-x> :Commentary<CR>
@@ -227,17 +237,25 @@ set nocompatible
 set nobackup
 set nowritebackup
 set noswapfile
-" set mouse=a
-" set ttymouse=sgr
+set mouse=a
+set ttymouse=sgr
 set updatetime=500
 " set balloondelay=250
 " custom govim
 " setlocal balloonexpr=GOVIMBalloonExpr()
-setlocal omnifunc=GOVIMComplete
+" setlocal omnifunc=GOVIMComplete
 nmap <buffer> <leader>h :<C-u>echo GOVIMHover()<CR>
 " default mappings are overwriten in vim/after/ftplugin/go.vim
 "" }}}
 
+"" vim-delve {{{
+let g:delve_breakpoint_sign="⛔️"
+" ❗️
+"" }}}
+
+"" hudigraphs {{{
 source ~/.dotfiles/vim/pack/plugins/hudigraphs_utf8.vim
 inoremap <expr>  <C-K>   HUDG_GetDigraph()
+"" }}}
+
 "" }}}
