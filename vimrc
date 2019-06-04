@@ -86,6 +86,7 @@ set smartcase
 " when searching with lvimgrep jump with below. <C-h> or <C-g> defined it ft section asd
 nmap <silent> <leader>[ :lprevious<CR>
 nmap <silent> <leader>] :lnext<CR>
+nnoremap <leader>s :%s/\<<C-r><C-w>\>/
 
 if executable('ag')
     set grepprg=ag\ --nogroup\ --nocolor
