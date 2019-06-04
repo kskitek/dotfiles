@@ -167,16 +167,6 @@ set foldnestmax=1
 " automatically wrap
 "" }}}
 "" FileType FT SETTINGS {{{
-augroup golang
-  autocmd!
-  " autocmd FileType go :TagbarToggle
-  " autocmd FileType go :packadd govim
-  " autocmd FileType go TODO !find * -type f -name "*_test.go" | entr make test
-  " maybe this one can be changed to 
-  nmap <C-h> "yyiw:lvimgrep <C-r>y **/*.go<CR>:lopen<CR><C-w><C-w>
-  nmap <C-g> "yyiwmygg/package<CR>w"pyiw'y:lvimgrep <C-r>p.<C-r>y **/*.go<CR>:lopen<CR><C-w><C-w>
-augroup END
-
 autocmd FileType markdown :TagbarToggle
 autocmd FileType markdown :set spell
 autocmd BufWritePre,BufRead *.env.local :set filetype=sh
@@ -184,7 +174,7 @@ autocmd BufWritePre,BufRead *.env.local :set filetype=sh
 "" }}}
 "" PLUGINS {{{
 
-filetype plugin on
+filetype plugin indent on
 syntax on
 
 " this package improves search matchings. E.g. type % anywhere in the code
@@ -241,11 +231,6 @@ set noswapfile
 set mouse=a
 set ttymouse=sgr
 set updatetime=500
-" set balloondelay=250
-" custom govim
-" setlocal balloonexpr=GOVIMBalloonExpr()
-" setlocal omnifunc=GOVIMComplete
-nmap <buffer> <leader>h :<C-u>echo GOVIMHover()<CR>
 " default mappings are overwriten in vim/after/ftplugin/go.vim
 "" }}}
 
