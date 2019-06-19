@@ -18,3 +18,7 @@ nmap <buffer> <leader>c :copen<CR>:set nobuflisted<CR>\\
 " autocmd FileType go TODO !find * -type f -name "*_test.go" | entr make test
 nmap <C-h> "yyiw:lvimgrep <C-r>y **/*.go<CR>:lopen<CR><C-w><C-w>
 nmap <C-g> "yyiwmygg/package<CR>w"pyiw'y:lvimgrep <C-r>p.<C-r>y **/*.go<CR>:lopen<CR><C-w><C-w>
+
+ab gh github.com
+ab gl gitlab.com
+ab sout fmt.Println
