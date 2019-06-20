@@ -1,0 +1,37 @@
+#!/bin/sh
+
+basePath=~/.playlists/
+
+playlist=$1
+command=$2
+
+if [ -z $playlist ]; then
+  playlist=ent
+fi
+
+if [ -z $command ]; then
+  command=play
+fi
+
+path="$basePath$playlist"
+
+if [ ! -r $path ]; then
+  echo "Playlist [$playlist] does not exist"
+  exit 1
+fi
+
+while IFS= read -r link
+do
+  title=`wget -qO- $link | perl -l -0777 -ne 'print $1 if /<title.*?>\s*(.*?)\s*<\/title/si'`
+  echo $title
+  read -p 'Play? y/n: ' yn < /dev/tty
+  if [ "$yn" = 'n' ]; then
+    exit 0
+  fi
+
+  mpv $link > /dev/null
+
+  echo $link >> $basePath$playlist'.played'
+  sed -i '' 1d $path # ehh sed -i on OSX is bullshit...
+  # TODO add git add and commit mby?
+done <$path

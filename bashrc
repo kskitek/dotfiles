@@ -13,6 +13,7 @@ set -o vi
 export PATH=$PATH:~/.scripts:~/.scripts/FlameGraph
 export PATH=/home/krzysztof/.local/bin:$PATH
 export PATH=/usr/local/bin:$PATH
+export PATH=$PATH:~/.dotfiles/scripts
 
 # golang
 export GO111MODULE=on
