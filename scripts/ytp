@@ -32,6 +32,6 @@ do
   mpv $link > /dev/null
 
   echo $link >> $basePath$playlist'.played'
-  sed -i '' 1d $path # ehh sed -i on OSX is bullshit...
+  sed -i 1d $path # ehh sed -i on OSX is bullshit...
   # TODO add git add and commit mby?
 done <$path
