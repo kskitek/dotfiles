@@ -13,6 +13,8 @@ set -U fish_user_paths /usr/local/bin ~/.scripts ~/.dotfiles/scripts/ $GOPATH/bi
 set -x GIT_TERMINAL_PROMPT 1
 
 set -x SOPS_GPG_FP "C2E434269F6AE6EDC89DA93CD8DE6BAEBAC09957"
+set -x FZF_DEFAULT_COMMAND 'fd --type f --type l'
+set -x FZF_DEFAULT_OPTS "--bind 'ctrl-y:execute-silent(echo {} | copy)+abort'"
 
 ## Abbrev
 if test -d ~/.config/fish/abbreviations

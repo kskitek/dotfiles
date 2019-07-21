@@ -4,14 +4,14 @@ function fish_prompt
     test "$USER" = 'root'
     and echo (set_color red)"#"
 
-  # Main
   echo -n (set_color cyan)(prompt_pwd)
 
-  test -d .git
-  and echo -n ' '(set_color yellow)(git branch --show-current)
+  set branch (git branch --show-current 2>/dev/null)
+  test $status = 0
+  and echo -n ' '(set_color yellow)$branch
 
   __lerta_simple_context
-  echo -n 'λ '
+  echo -n (set_color cyan)'λ '
 end
 
 function __lerta_simple_context
