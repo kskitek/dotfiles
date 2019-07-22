@@ -13,11 +13,9 @@ function trelloCounter
   set baseUrl https://api.trello.com/1
 
   if not set -q lower
-    echo l
     set -x lower 0
   end
   if not set -q upper
-    echo u
     set -x upper 10
   end
 
@@ -37,14 +35,14 @@ function trelloCounter
       set name (echo $card | jq '(.idShort|tostring) + " - " + .name')
       echo $name
 
-      set reestimated (echo $name | sed -E '/\|[0-9]+\|/!d;s/.*\|([0-9]+)\|/\1/')
+      set reestimated (echo $name | sed -r '/\|[0-9\.]+\|/!d;s/.*\|([0-9\.]+)\|/\1/' | tr -d \")
       set pluginData (http $baseUrl/cards/$cardId/pluginData key==$key token==$token | jq .[0].value)
       if test $pluginData = "null"
-        test -n "$reestimated" && echo "$sprintName,$name,,$reestimated" >> $resultFile
+        test -n "$reestimated"; and echo "$sprintName,$name,,$reestimated" >> $resultFile
         continue
       end
       set original (echo $pluginData | tr -d '\\\\' | tail -c +2 | rev | tail -c +2 | rev | jq .points)
-      test -n "$original" && echo "$sprintName,$name,$original,$reestimated" >> $resultFile
+      test -n "$original"; and echo "$sprintName,$name,$original,$reestimated" >> $resultFile
     end
   end
 
