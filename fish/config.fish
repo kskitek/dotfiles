@@ -2,6 +2,8 @@ set fish_greeting
 
 set -U EDITOR vim
 
+set -x SHELL /usr/bin/fish
+
 ## Golang
 set -x GO111MODULE on
 set -x GOROOT /usr/local/go

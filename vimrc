@@ -127,8 +127,10 @@ set noequalalways
 "" COLORS and HL {{{
 
 set t_Co=256
-set background=dark
-colorscheme gruvbox
+" set background=dark
+" colorscheme gruvbox
+colorscheme pencil
+let background = $KITTY_SCHEME
 
 set number relativenumber
 set numberwidth=4

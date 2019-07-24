@@ -40,3 +40,6 @@
 [submodule "vim/pack/plugins/start/vim-fish"]
 	path = vim/pack/plugins/start/vim-fish
 	url = https://github.com/dag/vim-fish
+[submodule "vim/pack/plugins/start/vim-colors-pencil"]
+	path = vim/pack/plugins/start/vim-colors-pencil
+	url = https://github.com/reedes/vim-colors-pencil
