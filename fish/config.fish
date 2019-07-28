@@ -1,7 +1,8 @@
 set fish_greeting
 
-set -U EDITOR vim
+set -x EDITOR vim
 
+set -x LC_ALL en_US.UTF-8
 set -x SHELL /usr/bin/fish
 
 ## Golang
@@ -19,8 +20,8 @@ set -x FZF_DEFAULT_COMMAND 'fd --type f --type l'
 set -x FZF_DEFAULT_OPTS "--bind 'ctrl-y:execute-silent(echo {} | copy)+abort'"
 
 ## Abbrev
-if test -d ~/.config/fish/abbreviations
-  for f in ~/.config/fish/abbreviations/*.fish
+if test -d ~/.config/fish/auto
+  for f in ~/.config/fish/auto/*.fish
     . $f
   end
 end
