@@ -11,6 +11,8 @@ abbr -a -g doc-chrono docker run -it --rm -p 8888:8888 --net="host" chronograf:1
 abbr -a -g ghub github.com
 abbr -a -g glab gitlab.com
 
+abbr -a t tree
+
 alias klog "kubectl get pod -o=name | sed -e 's/pod\///g' | fzf -m | tr \\n , | sed -e 's/,\$//g' | xargs kubetail $argv[1]"
 
 alias cat bat

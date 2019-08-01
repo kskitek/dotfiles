@@ -2,4 +2,6 @@
 .DS_Store
 
 lerta.fish
+staging.fish
+production.fish
 fish/fish_variables
