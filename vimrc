@@ -15,9 +15,6 @@ set encoding=utf-8
 
 " set statusline=%=%m\ %c\ %P\ %f\
 
-set ttyfast
-set ttimeout
-set ttimeoutlen=50
 set showcmd
 " set formatoptions+=t
 noremap <leader><leader> <C-W><C-w>
@@ -56,6 +53,7 @@ nnoremap <silent> ]] :call search('^\S\@=.*{\s*$', 'esW')<CR>
 set nrformats= " set nr format to decimal. Default is octal
 " remove timeout for mode switching with ESC
 set timeout ttimeout timeoutlen=999 ttimeoutlen=0
+set ttyfast
 
 set tabstop=2 softtabstop=2 shiftwidth=2
 set expandtab smarttab
@@ -127,8 +125,6 @@ set noequalalways
 "" COLORS and HL {{{
 
 set t_Co=256
-" set background=dark
-" colorscheme gruvbox
 colorscheme pencil
 let background = $KITTY_SCHEME
 
@@ -146,7 +142,8 @@ highlight OverLength ctermbg=red
 match OverLength /\%89v.\+/
 highlight ExtraWhitespace cterm=bold ctermfg=red
 2match ExtraWhitespace /\s\+$/
-set list listchars=tab:»·,trail:·
+" set list listchars=tab:»·,trail:·
+set list listchars=tab:\ \ ,trail:·
 autocmd InsertEnter * :set cursorline!
 autocmd InsertLeave * :set cursorline!
 
