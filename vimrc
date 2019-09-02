@@ -13,6 +13,8 @@ set encoding=utf-8
 
 "" EXPERIMENTAL {{{
 
+nmap <C-t> !git pull<CR>
+
 " set statusline=%=%m\ %c\ %P\ %f\
 
 set ttyfast
@@ -146,7 +148,7 @@ highlight OverLength ctermbg=red
 match OverLength /\%89v.\+/
 highlight ExtraWhitespace cterm=bold ctermfg=red
 2match ExtraWhitespace /\s\+$/
-set list listchars=tab:»·,trail:·
+" set list listchars=tab:»·,trail:·
 autocmd InsertEnter * :set cursorline!
 autocmd InsertLeave * :set cursorline!
 

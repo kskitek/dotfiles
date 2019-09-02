@@ -23,6 +23,10 @@ function __lerta_simple_context
       echo -n ' 🔴'
     case lerta-test
       echo -n ' 🚧'
+    case KC-Mobistyle-Lerta-test2-admin
+      echo -n ' 👨‍🚀'
+    case KC-Mobistyle-Lerta-prod-admin
+      echo -n ' 👨‍🚒'
     case '*'
       echo -n (set_color red)' '$k8s' '
   end
