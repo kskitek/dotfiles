@@ -25,3 +25,6 @@ if test -d ~/.config/fish/auto
     . $f
   end
 end
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/kskitek/.google-cloud-sdk/path.fish.inc' ]; if type source > /dev/null; source '/Users/kskitek/.google-cloud-sdk/path.fish.inc'; else; . '/Users/kskitek/.google-cloud-sdk/path.fish.inc'; end; end
