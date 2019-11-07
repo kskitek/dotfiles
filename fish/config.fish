@@ -11,7 +11,7 @@ set -x GOROOT /usr/local/go
 set -x GOPATH $HOME/go
 
 ## PATH
-set -U fish_user_paths /usr/local/bin ~/.scripts ~/.dotfiles/scripts/ $GOPATH/bin $GOROOT/bin
+set -U fish_user_paths /usr/local/bin ~/.scripts ~/.dotfiles/scripts/ $GOPATH/bin $GOROOT/bin ~/.tools/flutter/bin
 
 set -x GIT_TERMINAL_PROMPT 1
 

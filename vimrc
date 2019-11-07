@@ -126,7 +126,9 @@ set noequalalways
 
 set t_Co=256
 colorscheme pencil
+" let scheme = $KITTY_SCHEME
 let background = $KITTY_SCHEME
+set background=dark
 
 set number relativenumber
 set numberwidth=4
