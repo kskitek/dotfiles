@@ -2,6 +2,7 @@ abbr -a -- - 'cd -'
 
 abbr -a conf ~/.dotfiles
 abbr -a wrk ~/workspace
+abbr -a org ~/org
 
 abbr -a -g doc-puml docker run -d --rm -p 12130:8080 plantuml/plantuml-server:tomcat
 abbr -a -g doc-cadvisor sudo docker run --rm -d --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro --publish=8090:8080  google/cadvisor:latest
@@ -12,6 +13,7 @@ abbr -a -g ghub github.com
 abbr -a -g glab gitlab.com
 
 abbr -a t tree
+abbr -a t2 tree -L 2
 
 alias klog "kubectl get pod -o=name | sed -e 's/pod\///g' | fzf -m | tr \\n , | sed -e 's/,\$//g' | xargs kubetail $argv[1]"
 

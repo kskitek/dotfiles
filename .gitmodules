@@ -55,3 +55,6 @@
 [submodule "vim/pack/plugins/start/vim-flutter"]
 	path = vim/pack/plugins/start/vim-flutter
 	url = https://github.com/thosakwe/vim-flutter
+[submodule "scripts/git-sync"]
+	path = scripts/git-sync
+	url = https://github.com/simonthum/git-sync
