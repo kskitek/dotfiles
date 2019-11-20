@@ -17,3 +17,6 @@ alias klog "kubectl get pod -o=name | sed -e 's/pod\///g' | fzf -m | tr \\n , | 
 
 alias cat bat
 alias icat "kitty +kitten icat"
+
+alias guidToShort "go run ~/.dotfiles/scripts/guidToShort.go"
+alias shortToGuid "go run ~/.dotfiles/scripts/shortToGuid.go"
