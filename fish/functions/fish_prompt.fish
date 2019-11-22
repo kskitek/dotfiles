@@ -11,7 +11,13 @@ function fish_prompt
   and echo -n ' '(set_color yellow)$branch
 
   __lerta_simple_context
+  __jobs_count
   echo -n (set_color cyan)'λ '
+end
+
+function __jobs_count
+  set jobs (jobs | wc -l)
+  echo -n (set_color blue)"[$jobs]"
 end
 
 function __lerta_simple_context
@@ -24,9 +30,9 @@ function __lerta_simple_context
     case lerta-test
       echo -n ' 🚧'
     case KC-Mobistyle-Lerta-test2-admin
-      echo -n ' 👨‍🚀'
+      echo -n ' 👨‍🚀🔵'
     case KC-Mobistyle-Lerta-prod-admin
-      echo -n ' 👨‍🚒'
+      echo -n ' 👨‍🚀🔴'
     case '*'
       echo -n (set_color red)' '$k8s' '
   end

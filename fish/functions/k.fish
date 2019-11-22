@@ -1,4 +1,5 @@
-function k
+# temporarily disabled
+function _k
   set cmd $argv[1]
   echo $cmd
   switch $cmd
