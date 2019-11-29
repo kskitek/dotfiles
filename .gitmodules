@@ -58,3 +58,6 @@
 [submodule "scripts/git-sync"]
 	path = scripts/git-sync
 	url = https://github.com/simonthum/git-sync
+[submodule "vim/pack/plugins/vim-markdown"]
+	path = vim/pack/plugins/vim-markdown
+	url = https://github.com/plasticboy/vim-markdown

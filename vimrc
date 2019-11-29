@@ -13,8 +13,6 @@ set encoding=utf-8
 
 "" EXPERIMENTAL {{{
 
-nmap <C-t> !git pull<CR>
-
 " set statusline=%=%m\ %c\ %P\ %f\
 
 set showcmd
@@ -31,15 +29,17 @@ sign define delve_breakpoint text=●
 
 "" }}}
 "" CLIPBOARD {{{
-set clipboard=unnamedplus
+set clipboard=unnamed,unnamedplus
 vnoremap y "+y
 " vnoremap d "+d
 
 "" }}}
 "" MOVEMENT {{{
 
-nnoremap j jzz
-nnoremap k kzz
+" nnoremap j jzz
+" nnoremap k kzz
+set scrolloff=999
+
 vmap < <gv
 vmap > >gv
 nnoremap H ^
@@ -53,23 +53,24 @@ nnoremap <silent> ]] :call search('^\S\@=.*{\s*$', 'esW')<CR>
 
 " nrformats-=octal
 set nrformats= " set nr format to decimal. Default is octal
-" remove timeout for mode switching with ESC
-set timeout ttimeout timeoutlen=999 ttimeoutlen=0
-set ttyfast
 
 set tabstop=2 softtabstop=2 shiftwidth=2
 set expandtab smarttab
 
-set nowrap
-
 set backspace=indent,eol,start
 
-set noswapfile
-set nobackup
+set nobackup noswapfile nowritebackup
+set undofile undodir=/tmp/vim-undo undolevels=9999
 
 " use system copy clipboard
 " set clipboard=unnamed
 
+"" }}}
+"" PERFORMANCE {{{
+set lazyredraw
+" remove timeout for mode switching with ESC
+set timeout ttimeout timeoutlen=999 ttimeoutlen=0
+set ttyfast
 "" }}}
 "" SEARCH {{{
 
@@ -78,10 +79,7 @@ set path=**
 set wildignore+=node_modules/*,.git
 set wildmode=longest:full,full
 
-set incsearch
-set hlsearch
-set ignorecase
-set smartcase
+set incsearch hlsearch ignorecase smartcase
 
 " when searching with lvimgrep jump with below. <C-h> or <C-g> defined it ft section asd
 nmap <silent> <leader>[ :lprevious<CR>
@@ -98,7 +96,7 @@ endif
 "" }}}
 "" RANDOM SHORTCUTS {{{
 nmap ! :!
-" when playing with .vimrc this one is usefull to apply command from current line and 
+" when playing with .vimrc this one is usefull to apply command from current line
 nmap <leader>; yy:<C-f>p<CR>
 nnoremap <silent> <Leader>- :vertical resize +9<CR>
 nnoremap <silent> <Leader>= :vertical resize -9<CR>
@@ -159,19 +157,22 @@ set foldmethod=syntax
 set foldlevelstart=99
 " This allows to fold only top level (functions)
 set foldnestmax=1
-" set foldmethod=indent
-" set foldclose=all
 
 "" }}}
 "" LINE WRAPPING {{{
+set nowrap
+
 " set textwidth=90
 " set wrap
 " automatically wrap
 "" }}}
 "" FileType FT SETTINGS {{{
+
+" markdown
 autocmd FileType markdown :TagbarToggle
 autocmd FileType markdown :set spell
 autocmd BufWritePre,BufRead *.env.local :set filetype=sh
+
 
 "" }}}
 "" PLUGINS {{{
@@ -242,8 +243,15 @@ let g:delve_breakpoint_sign="⛔️"
 "" }}}
 
 "" hudigraphs {{{
+
 source ~/.dotfiles/vim/pack/plugins/hudigraphs_utf8.vim
 inoremap <expr>  <C-K>   HUDG_GetDigraph()
 "" }}}
+
+"" vim-markdown {{{
+let g:vim_markdown_conceal_code_blocks = 0
+let g:vim_markdown_new_list_item_indent = 2
+"" }}}
+
 
 "" }}}
