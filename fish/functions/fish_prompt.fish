@@ -16,7 +16,7 @@ function fish_prompt
 end
 
 function __jobs_count
-  set jobs (jobs | wc -l)
+  set jobs (jobs | wc -l | tr -d ' ')
   echo -n (set_color blue)"[$jobs]"
 end
 
