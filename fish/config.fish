@@ -12,7 +12,7 @@ set -x GOPATH $HOME/go
 set -x GOPRIVATE gitlab.com/lerta/* gitlab.com/cloudthing/*
 
 ## PATH
-set -U fish_user_paths /usr/local/bin ~/.scripts ~/.dotfiles/scripts/ $GOPATH/bin $GOROOT/bin ~/.tools/flutter/bin
+set -U fish_user_paths /usr/local/bin ~/.scripts ~/.dotfiles/scripts/ $GOPATH/bin $GOROOT/bin ~/.tools/flutter/bin ~/.dotfiles/scripts/kubetail/kubetail ~/tools/kubetail
 
 set -x GIT_TERMINAL_PROMPT 1
 

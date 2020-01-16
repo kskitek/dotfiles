@@ -255,3 +255,6 @@ let g:vim_markdown_new_list_item_indent = 2
 
 
 "" }}}
+"" {{{ ABBREVIATIONS
+iab <expr> dts strftime("%c")
+"" }}}
