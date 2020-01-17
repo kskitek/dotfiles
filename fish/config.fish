@@ -2,6 +2,8 @@ set fish_greeting
 
 set -x EDITOR vim
 
+fish_vi_key_bindings
+
 set -x LC_ALL en_US.UTF-8
 set -x SHELL /usr/bin/fish
 
@@ -12,7 +14,7 @@ set -x GOPATH $HOME/go
 set -x GOPRIVATE gitlab.com/lerta/* gitlab.com/cloudthing/*
 
 ## PATH
-set -U fish_user_paths /usr/local/bin ~/.scripts ~/.dotfiles/scripts/ $GOPATH/bin $GOROOT/bin ~/.tools/flutter/bin
+set -U fish_user_paths /usr/local/bin ~/.scripts ~/.dotfiles/scripts/ $GOPATH/bin $GOROOT/bin ~/.tools/flutter/bin ~/.dotfiles/scripts/kubetail/kubetail ~/tools/kubetail
 
 set -x GIT_TERMINAL_PROMPT 1
 

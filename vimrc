@@ -139,7 +139,7 @@ set colorcolumn=90
 hi CursorColumn ctermbg=gray ctermfg=black
 hi CursorLine ctermbg=gray ctermfg=black
 hi Cursor ctermbg=magenta ctermfg=magenta
-hi Visual cterm=reverse ctermbg=NONE
+hi Visual cterm=reverse ctermbg=black
 highlight OverLength ctermbg=red
 match OverLength /\%89v.\+/
 highlight ExtraWhitespace cterm=bold ctermfg=red
@@ -254,4 +254,7 @@ let g:vim_markdown_new_list_item_indent = 2
 "" }}}
 
 
+"" }}}
+"" {{{ ABBREVIATIONS
+iab <expr> dts strftime("%c")
 "" }}}

@@ -15,7 +15,7 @@ abbr -a -g glab gitlab.com
 abbr -a t tree
 abbr -a t2 tree -L 2
 
-alias k "kubectl get all -o name | fzf | tr -d \\n | copy"
+alias k "kubectl get pod -o name | fzf | tr -d \\n | copy"
 alias klog "kubectl get pod -o=name | sed -e 's/pod\///g' | fzf -m | tr \\n , | sed -e 's/,\$//g' | xargs kubetail $argv[1]"
 
 alias cat bat
