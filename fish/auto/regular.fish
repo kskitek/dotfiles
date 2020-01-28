@@ -17,6 +17,7 @@ abbr -a t2 tree -L 2
 
 alias k "kubectl get pod -o name | fzf | tr -d \\n | copy"
 alias klog "kubectl get pod -o=name | sed -e 's/pod\///g' | fzf -m | tr \\n , | sed -e 's/,\$//g' | xargs kubetail $argv[1]"
+abbr kevict "kubectl get pod --field-selector=status.phase=Failed --no-headers -o custom-columns=:metadata.name | xargs kubectl delete pod"
 
 alias cat bat
 alias icat "kitty +kitten icat"

@@ -13,6 +13,7 @@ function fish_prompt
   __lerta_simple_context
   __jobs_count
   echo -n (set_color cyan)'λ '
+  __lerta_context_color
 end
 
 function __jobs_count
@@ -35,5 +36,18 @@ function __lerta_simple_context
       echo -n ' 👨‍🚀🔴'
     case '*'
       echo -n (set_color red)' '$k8s' '
+  end
+end
+
+function __lerta_context_color
+  set k8s (kubectl config current-context)
+  switch $k8s
+    case lerta-dev
+    case lerta-test
+    case lerta-prod
+      echo -n (set_color -b brred)
+    case KC-Mobistyle-Lerta-prod-admin
+      echo -n (set_color -b brred)
+    case '*'
   end
 end
