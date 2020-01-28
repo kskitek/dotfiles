@@ -22,32 +22,29 @@ function __jobs_count
 end
 
 function __lerta_simple_context
+  echo -n ' '
+
   set k8s (kubectl config current-context)
-  switch $k8s
-    case lerta-dev
-      echo -n ' 🔵'
-    case lerta-prod
-      echo -n ' 🔴'
-    case lerta-test
-      echo -n ' 🚧'
-    case KC-Mobistyle-Lerta-test2-admin
-      echo -n ' 👨‍🚀🔵'
-    case KC-Mobistyle-Lerta-prod-admin
-      echo -n ' 👨‍🚀🔴'
-    case '*'
-      echo -n (set_color red)' '$k8s' '
+  if test (echo $k8s | grep lerta)
+    echo -n (set_color blue)'L'
+  else if test (echo $k8s | grep KC)
+    echo -n (set_color blue)'M'
+  end
+
+  if test (echo $k8s | grep prod)
+    echo -n (set_color red)'█'
+  else if test (echo $k8s | grep dev)
+    echo -n (set_color blue)'█'
+  else if test (echo $k8s | grep test)
+    echo -n (set_color yellow)'█'
+  else 
+    echo -n (set_color red) $k8s' '
   end
 end
 
 function __lerta_context_color
   set k8s (kubectl config current-context)
-  switch $k8s
-    case lerta-dev
-    case lerta-test
-    case lerta-prod
-      echo -n (set_color -b brred)
-    case KC-Mobistyle-Lerta-prod-admin
-      echo -n (set_color -b brred)
-    case '*'
+  if test (echo $k8s | grep prod)
+    echo -n (set_color -b brred)
   end
 end
