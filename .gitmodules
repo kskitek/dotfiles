@@ -64,3 +64,6 @@
 [submodule "vim/pack/plugins/start/vim-elm-syntax"]
 	path = vim/pack/plugins/start/vim-elm-syntax
 	url = https://github.com/andys8/vim-elm-syntax
+[submodule "vim/pack/plugins/start/simplenote"]
+	path = vim/pack/plugins/start/simplenote
+	url = https://github.com/simplenote-vim/simplenote.vim
