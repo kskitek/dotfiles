@@ -11,7 +11,7 @@ set -x SHELL /usr/bin/fish
 set -x GO111MODULE on
 set -x GOROOT /usr/local/go
 set -x GOPATH $HOME/go
-set -x GOPRIVATE gitlab.com/lerta/* gitlab.com/cloudthing/*
+set -x GOPRIVATE 'gitlab.com/lerta/*,gitlab.com/cloudthing/*'
 
 ## PATH
 set -U fish_user_paths /usr/local/bin ~/.scripts ~/.dotfiles/scripts/ $GOPATH/bin $GOROOT/bin ~/.tools/flutter/bin ~/.dotfiles/scripts/kubetail/kubetail ~/tools/kubetail
