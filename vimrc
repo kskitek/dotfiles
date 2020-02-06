@@ -29,6 +29,7 @@ sign define delve_breakpoint text=●
 
 "" }}}
 "" CLIPBOARD {{{
+" use system copy clipboard
 set clipboard=unnamed,unnamedplus
 vnoremap y "+y
 " vnoremap d "+d
@@ -62,9 +63,6 @@ set backspace=indent,eol,start
 set nobackup noswapfile nowritebackup
 set undofile undodir=/tmp/vim-undo undolevels=9999
 
-" use system copy clipboard
-" set clipboard=unnamed
-
 "" }}}
 "" PERFORMANCE {{{
 set lazyredraw
@@ -81,15 +79,17 @@ set wildmode=longest:full,full
 
 set incsearch hlsearch ignorecase smartcase
 
-" when searching with lvimgrep jump with below. <C-h> or <C-g> defined it ft section asd
+
+" when searching with lgrep jump with below. <C-h> or <C-g> defined it ft section
 nmap <silent> <leader>[ :lprevious<CR>
 nmap <silent> <leader>] :lnext<CR>
-nnoremap <leader>s :%s/\<<C-r><C-w>\>/
+nmap <C-s> :%s/\<<C-r><C-w>\>/
+nmap <silent> <C-h> :lgrep <C-r><C-w> ./**<CR>:lopen<CR>
 
 if executable('ag')
-    set grepprg=ag\ --nogroup\ --nocolor
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-    let g:ctrlp_use_caching = 0
+  set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep\ $*
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  let g:ctrlp_use_caching = 0
 endif
 
 
@@ -110,7 +110,7 @@ inoremap <Nul> <C-x><C-o>
 inoremap <C-f> <C-x><C-f>
 
 nmap <C-k> ddkP
-nmap <c-j> ddp
+nmap <C-j> ddp
 
 "" }}}
 "" BUFFERS {{{
@@ -118,6 +118,7 @@ nmap <c-j> ddp
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
 nnoremap <leader>x :bdelete<CR>
+nnoremap <C-w>x :bdelete<CR>
 " see also CtrlPBuffer
 set noequalalways
 
@@ -173,6 +174,7 @@ autocmd FileType markdown :TagbarToggle
 autocmd FileType markdown :set spell
 autocmd BufWritePre,BufRead *.env.local :set filetype=sh
 
+au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent foldlevel=3
 
 "" }}}
 "" PLUGINS {{{
@@ -256,6 +258,7 @@ let g:vim_markdown_new_list_item_indent = 2
 "" simplenote-vim {{{
 let g:SimplenoteUsername = "krzysztof.skitek@gmail.com"
 let g:SimplenoteSingleWindow = 1
+let g:SimplenoteNoteFormat = "[%T] %N%>[%D]"
 "" }}}
 
 
