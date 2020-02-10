@@ -6,10 +6,13 @@ function __color_k8s
   set blue (set_color blue)
 
    sed "s/Running/$green Running$normal/g" \
+  | sed "s/Normal/$green Normal$normal/g" \
+  | sed "s/Ready/$green Ready$normal/g" \
   | sed "s/Bound/$green Bound$normal/g" \
   | sed "s/Pending/$yellow Pending$normal/g" \
   | sed "s/Completed/$blue Completed$normal/g" \
   | sed "s/Error/$red Error$normal/g" \
+  | sed "s/Evicted/$red Evicted$normal/g" \
   | sed "s/ImagePullBackOff/$red ImagePullBackOff$normal/g" \
   | sed "s/CrashLoopBackOff/$red CrashLoopBackOff$normal/g"
   # TODO container config error
