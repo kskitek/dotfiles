@@ -1,8 +1,7 @@
 function dark
-  set scheme dark
-  kitty @ set-colors --all --configured ~/.dotfiles/kitty/pencil-$scheme.conf
-  set -e KITTY_SCHEME
-  set -U KITTY_SCHEME $scheme
-  set -e BAT_THEME
-  set -U BAT_THEME ansi-$scheme
+  set -e SCHEME
+  set -U SCHEME dark
+  kitty @ set-colors --all --configured ~/.dotfiles/kitty/pencil-$SCHEME.conf
+  set -x KITTY_SCHEME $SCHEME
+  set -x BAT_THEME ansi-$SCHEME
 end

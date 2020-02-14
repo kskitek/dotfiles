@@ -7,6 +7,9 @@ fish_vi_key_bindings
 set -x LC_ALL en_US.UTF-8
 set -x SHELL /usr/bin/fish
 
+set -x KITTY_SCHEME $SCHEME
+set -x BAT_THEME ansi-$SCHEME
+
 ## Golang
 set -x GO111MODULE on
 set -x GOROOT /usr/local/go
