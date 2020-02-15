@@ -6,6 +6,6 @@ function kg
   if test -z $names
     kubectl get $resource | __color_k8s
   else
-    kubectl get $resource | ag "NAME|$names" | __color_k8s
+    kubectl get $resource | ag --nocolor "NAME|$names" | __color_k8s
   end
 end
