@@ -23,6 +23,8 @@ abbr ktopp "kubectl top pod --containers=true"
 alias cat bat
 alias icat "kitty +kitten icat"
 
+alias bc "bc --quiet"
+
 alias guidToShort "go run ~/.dotfiles/scripts/guidToShort.go"
 alias shortToGuid "go run ~/.dotfiles/scripts/shortToGuid.go"
 

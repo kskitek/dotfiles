@@ -7,6 +7,7 @@ fish_vi_key_bindings
 set -x LC_ALL en_US.UTF-8
 set -x SHELL /usr/bin/fish
 
+# Scheme
 set -x KITTY_SCHEME $SCHEME
 set -x BAT_THEME ansi-$SCHEME
 
@@ -18,6 +19,7 @@ set -x GOPRIVATE 'gitlab.com/lerta/*,gitlab.com/cloudthing/*'
 
 ## PATH
 set -U fish_user_paths /usr/local/bin ~/.scripts ~/.dotfiles/scripts/ $GOPATH/bin $GOROOT/bin ~/.tools/flutter/bin ~/.dotfiles/scripts/kubetail/kubetail ~/tools/kubetail
+set -x BC_ENV_ARGS ~/.dotfiles/bc
 
 set -x GIT_TERMINAL_PROMPT 1
 
