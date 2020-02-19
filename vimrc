@@ -13,7 +13,7 @@ set encoding=utf-8
 
 "" EXPERIMENTAL {{{
 
-" set statusline=%=%m\ %c\ %P\ %f\
+set foldcolumn=2
 
 set showcmd
 " set formatoptions+=t
@@ -65,6 +65,7 @@ set undofile undodir=/tmp/vim-undo undolevels=9999
 
 "" }}}
 "" PERFORMANCE {{{
+" Do not redraw screen in the middle of a macro. Makes them complete faster.
 set lazyredraw
 " remove timeout for mode switching with ESC
 set timeout ttimeout timeoutlen=999 ttimeoutlen=0
@@ -97,7 +98,9 @@ endif
 "" RANDOM SHORTCUTS {{{
 nmap ! :!
 " when playing with .vimrc this one is usefull to apply command from current line
-nmap <leader>; yy:<C-f>p<CR>
+nmap <leader>; yyq:p<CR>
+" nnoremap <leader>e :exe getline(line('.'))<cr>
+
 nnoremap <silent> <Leader>- :vertical resize +9<CR>
 nnoremap <silent> <Leader>= :vertical resize -9<CR>
 
