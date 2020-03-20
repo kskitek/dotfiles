@@ -18,7 +18,7 @@ set -x GOPATH $HOME/go
 set -x GOPRIVATE 'gitlab.com/lerta/*,gitlab.com/cloudthing/*'
 
 ## PATH
-set -U fish_user_paths /usr/local/bin ~/.scripts ~/.dotfiles/scripts/ $GOPATH/bin $GOROOT/bin ~/.tools/flutter/bin ~/.dotfiles/scripts/kubetail/kubetail ~/tools/kubetail
+set -U fish_user_paths /usr/local/bin ~/.scripts ~/.dotfiles/scripts/ $GOPATH/bin $GOROOT/bin ~/.tools/flutter/bin ~/.dotfiles/scripts/kubetail/kubetail ~/tools/kubetail ~/.cargo/bin
 set -x BC_ENV_ARGS ~/.dotfiles/bc
 
 set -x GIT_TERMINAL_PROMPT 1
@@ -36,3 +36,5 @@ end
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/kskitek/.google-cloud-sdk/path.fish.inc' ]; if type source > /dev/null; source '/Users/kskitek/.google-cloud-sdk/path.fish.inc'; else; . '/Users/kskitek/.google-cloud-sdk/path.fish.inc'; end; end
+
+set -g fish_user_paths "/usr/local/opt/helm@2/bin" $fish_user_paths

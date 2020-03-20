@@ -217,6 +217,7 @@ set laststatus=2
 "" ctrlP {{{
 nmap <Leader>b :CtrlPBuffer<CR>
 nmap <C-E> :CtrlPBuffer<CR>
+nmap <S-P> :CtrlP ./<CR>
 "" }}}
 
 "" tagbar {{{
