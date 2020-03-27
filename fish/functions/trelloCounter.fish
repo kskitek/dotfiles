@@ -8,7 +8,7 @@ function trelloCounter
   set token $trelloToken
   set boardId $trelloBoardId
 
-  set resultFile file.csv
+  set resultFile trello-(date +%d-%m-%Y).csv
 
   set baseUrl https://api.trello.com/1
 
@@ -35,7 +35,11 @@ function trelloCounter
       set name (echo $card | jq '(.idShort|tostring) + " - " + .name')
       echo $name
 
-      set reestimated (echo $name | sed -r '/\|[0-9\.]+\|/!d;s/.*\|([0-9\.]+)\|/\1/' | tr -d \")
+      if test (uname) "Darwin"
+        set reestimated (echo $name | sed -E '/\|[0-9\.]+\|/!d;s/.*\|([0-9\.]+)\|/\1/' | tr -d \")
+      else
+        set reestimated (echo $name | sed -e '/\|[0-9\.]+\|/!d;s/.*\|([0-9\.]+)\|/\1/' | tr -d \")
+      end
       set pluginData (http $baseUrl/cards/$cardId/pluginData key==$key token==$token | jq .[0].value)
       if test $pluginData = "null"
         test -n "$reestimated"; and echo "$sprintName,$name,,$reestimated" >> $resultFile
