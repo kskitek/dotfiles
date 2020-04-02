@@ -4,7 +4,7 @@ function ytp
 
   set command $argv[1]
 
-  set playlist (fd --exclude '*.played' . $__ytp_playlists_path | fzf | xargs basename)
+  set playlist (fd --exclude '*.played' . $__ytp_playlists_path | fzf --height 10% | xargs basename)
 
   if test -z $playlist
     return
