@@ -17,6 +17,7 @@
 	lsd = log --oneline --graph --decorate
 	pushf = push --force-with-lease
   kdiff = difftool --no-symlinks --dir-diff
+  code-changes = "!git log --format=format: --name-only | egrep -v '^$' | sort | uniq -c | sort -rg | head -10"
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
