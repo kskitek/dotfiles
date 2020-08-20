@@ -1,0 +1,176 @@
+*simplenote.txt*  A vim plugin to interact with the Simplenote API.
+*simplenote*
+
+==============================================================================
+CONTENTS                                                 *simplenote-contents*
+
+    1.Intro...................................|simplenote-intro|
+    2.Commands................................|simplenote-commands|
+    3.Configuration...........................|simplenote-configuration|
+    4.Colors..................................|simplenote-colors|
+    5.Bugs....................................|simplenote-bugs|
+
+==============================================================================
+1. Intro                                                    *simplenote-intro*
+
+A vim plugin to interact with the Simplenote API. You can create an
+account at https://simple-note.appspot.com/create if you don't already
+have one. The plugin needs vim to be compiled with python support.
+
+Now you can take simple notes directly from your favourite editor.
+
+==============================================================================
+2. Commands                                              *simplenote-commands*
+
+:SimplenoteList {date|tags}                                  *:SimplenoteList*
+    List notes since {date} or all notes with {tags} where {tags} is a comma
+    separated list of tags. When the parameter is omitted, all notes are
+    fetched. This command opens a split window to list notes. In the appearing
+    split window, notes can be selected with the cursor line and are opened in
+    a new split window with {CR}.
+
+:SimplenoteUpdate                                          *:SimplenoteUpdate*
+    Update the currently opened note in the online service. The note is also
+    automatically updated when the buffer is written. This will also merge in
+    any changes that have occurred to the remote note.
+
+:SimplenoteVersionInfo                                *:SimplenoteVersionInfo*
+    Displays the note key/id and version number of the current note.
+
+:SimplenoteVersion {version}                              *:SimplenoteVersion*
+    Without any argument retrieves the most current version of a note. When
+    {version} is supplied this retrieves {version} of a note.
+
+:SimplenoteTrash                                            *:SimplenoteTrash*
+    Move the currently open note into the trash. The open buffer is
+    automatically closed after success.
+
+:SimplenoteDelete                                          *:SimplenoteDelete*
+    Delete the currently open note. The open buffer is automatically closed
+    after success.
+
+:SimplenoteNew                                                *:SimplenoteNew*
+    Create a new note with the contents of the current buffer.
+
+:SimplenoteTag                                                *:SimplenoteTag*
+    Show an input field to add tags to the note in the current buffer. The
+    input field is prepopulated with existing note tags.
+
+:SimplenotePin                                                *:SimplenotePin*
+    Pin the note in the current buffer.
+
+:SimplenoteUnpin                                            *:SimplenoteUnpin*
+    Unpin the note in the current buffer.
+
+:SimplenoteOpen {notekey}                                    *:SimplenoteOpen*
+    Opens the note corresponding to the given {notekey}. This is useful for
+    configuring shortcuts to specific notes, e.g. >
+    " add :Todo command
+    command Todo Simplenote -o <yourtodonotekey>
+<
+
+==============================================================================
+3. Configuration                                    *simplenote-configuration*
+
+                                                       *'simplenote_username'*
+Default: not set
+Set the username for the Simplenote account to use. >
+    g:SimplenoteUsername="foo@example.com"
+<
+
+                                                       *'simplenote_password'*
+Default: not set
+Set the Password for the Simplenote account to use. >
+    g:SimplenotePassword="verysecret"
+<
+
+
+                                                       *'simplenote_vertical'*
+Default: 0
+If set, the split windows will be opened vertical instead of horizontal. >
+    g:SimplenoteVertical=1
+<
+
+                                                      *'simplenote_list_size'*
+Default: 50% of the current buffer
+If set, sets the width or height of the note list (Depending on 
+the setting of 'simplenote_vertical'). >
+    g:SimplenoteListSize=30
+<
+
+                                                  *'simplenote_single_window'*
+Default: 0
+If set, simplenote.vim will try to emulate the behaviour of the Simplenote
+website and display the list index and only one note open at a time. >
+    g:SimplenoteSingleWindow=1
+<
+                                                    *'simplenote_note_format'*
+Default: "%N%>[%T] [%D]"
+Sets the format of the title strings for notes in the list. >
+    g:SimplenoteNoteFormat="[%D] %N%>%T"
+<
+Various formatting tags are supporting for dynamically building the title
+string. Each of these formatting tags supports a width specifier (decimal) and
+a left justification (-) like that supported by printf. >
+    %F -- flags, always two characters ('*'=pinned, 'm'=markdown)
+    %T -- tags
+    %D -- date
+    %N -- note title
+    %> -- right justify the rest of the title
+<
+Examples: >
+    %N    -- entire note title
+    %50N  -- note title, max width of 50 characters and right justified
+    %-50N -- note title, max width of 50 characters and left justified
+<
+
+                                                       *'simplenote_strftime'*
+Default: "%a, %d %b %Y %H:%M:%S"
+The default |strftime| format to use in the note line. >
+    g:SimplenoteStrftime="%Y/%m/%d-%T"
+<
+
+                                                     *'simplenote_sort_order'*
+Default: "pinned,modifydate"
+Sets the sort order by which notes should be listed. Dates are sorted from
+newest to oldest and pinned and tags from existing to non-existing. Supported
+values are {pinned}, {tags}, {title}, {modifydate}, {createdate}. >
+    g:SimplenoteSortOrder="pinned,tags"
+<
+
+                                                       *'simplenote_filetype'*
+Default: "txt"
+Set the default vim filetype for notes. >
+    g:SimplenoteFiletype="markdown"
+<
+
+                                                          *'simplenote_proxy'*
+Default: Off
+If you are behind a proxy set these to the correct values. >
+    let $HTTP_PROXY = 'http://<user>:<password>@<proxyurl>:<proxyport>'
+    let $HTTPS_PROXY = 'http://<user>:<password>@<proxyurl>:<proxyport>'
+<
+
+
+==============================================================================
+4. Colors                                                  *simplenote-colors*
+
+If the |+conceal| feature is enabled in vim then |syntax| highlighting is
+supported for the Simplenote note list. The |highlight| groups supported are:
+
+  SN_NoteFlags       note flags ('%F' format)
+  SN_NoteDate        last updated date of the note ('%D' format)
+  SN_NoteTags        tags assigned to the note ('%T' format)
+  SN_NoteAgeDay      note title - less than a day old ('%N' format)
+  SN_NoteAgeWeek     note title - less than a week old ('%N' format)
+  SN_NoteAgeMonth    note title - less than a month old ('%N' format)
+  SN_NoteAgeYear     note title - less than a year old ('%N' format)
+  SN_NoteAgeAncient  note title - ancient ('%N' format)
+
+==============================================================================
+5. Bugs                                                      *simplenote-bugs*
+
+For known bugs or to submit a new one, please visit
+https://github.com/mrtazz/simplenote.vim/issues
+
+vim: syntax=help nospell

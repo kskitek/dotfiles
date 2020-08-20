@@ -15,7 +15,11 @@ set encoding=utf-8
 
 set foldcolumn=2
 
-set showcmd
+set linebreak
+
+set showcmd " TODO does not work with COC
+set hidden
+
 " set formatoptions+=t
 noremap <leader><leader> <C-W><C-w>
 
@@ -45,9 +49,10 @@ vmap < <gv
 vmap > >gv
 nnoremap H ^
 nnoremap L $
+
 " Make [[ and ]] work even if the { is not in the first column
-nnoremap <silent> [[ :call search('^\S\@=.*{\s*$', 'besW')<CR>
-nnoremap <silent> ]] :call search('^\S\@=.*{\s*$', 'esW')<CR>
+" nnoremap <silent> [[ :call search('^\S\@=.*{\s*$', 'besW')<CR>
+" nnoremap <silent> ]] :call search('^\S\@=.*{\s*$', 'esW')<CR>
 
 "" }}}
 "" MISCLEANUOUS {{{
@@ -71,6 +76,9 @@ set lazyredraw
 set timeout ttimeout timeoutlen=999 ttimeoutlen=0
 set ttyfast
 "" }}}
+"" SESSIONS {{{
+nmap <leader>mks :mksession! .session<CR>
+"" }}}
 "" SEARCH {{{
 
 set wildmenu
@@ -79,7 +87,6 @@ set wildignore+=node_modules/*,.git
 set wildmode=longest:full,full
 
 set incsearch hlsearch ignorecase smartcase
-
 
 " when searching with lgrep jump with below. <C-h> or <C-g> defined it ft section
 nmap <silent> <leader>[ :lprevious<CR>
@@ -104,8 +111,9 @@ nmap <leader>; yyq:p<CR>
 nnoremap <silent> <Leader>- :vertical resize +9<CR>
 nnoremap <silent> <Leader>= :vertical resize -9<CR>
 
-vnoremap <leader>d c<c-r>=system('base64 --decode', @")<cr><esc>gv
-vnoremap <leader>e c<c-r>=system('base64 -w 0', @")<cr><esc>gv
+vnoremap <leader>d c<c-r>=system('base64 --decode', @")<cr><esc>gv<left>
+" vnoremap <leader>e c<c-r>=system('base64 -w 0', @")<cr><esc>gv
+vnoremap <leader>e c<c-r>=system('base64', @")<cr><BS><esc>gv<left>
 
 " nmap <C-k> :make test
 " nmap <C-j> :make build run
@@ -170,7 +178,6 @@ set nowrap
 
 " set textwidth=90
 " set wrap
-" automatically wrap
 "" }}}
 "" FileType FT SETTINGS {{{
 
@@ -215,7 +222,7 @@ map <S-F2> :cnext<CR>
 set laststatus=2
 
 "" ctrlP {{{
-nmap <Leader>b :CtrlPBuffer<CR>
+" nmap <Leader>b :CtrlPBuffer<CR>
 nmap <C-E> :CtrlPBuffer<CR>
 nmap <S-P> :CtrlP ./<CR>
 "" }}}
@@ -251,7 +258,6 @@ let g:delve_breakpoint_sign="⛔️"
 "" }}}
 
 "" hudigraphs {{{
-
 source ~/.dotfiles/vim/pack/plugins/hudigraphs_utf8.vim
 inoremap <expr>  <C-K>   HUDG_GetDigraph()
 "" }}}
@@ -267,8 +273,42 @@ let g:SimplenoteSingleWindow = 1
 let g:SimplenoteNoteFormat = "[%T] %N%>[%D]"
 "" }}}
 
-
 "" }}}
 "" {{{ ABBREVIATIONS
 iab <expr> dts strftime("%c")
+"" }}}
+"" {{{ PRESENTATION MODE
+nmap <silent> <leader>t :.!figlet -f small<CR>
+nmap <silent> <leader>b :.!toilet -f term -F border<CR>
+
+
+nmap <silent> <F5> :call ToggleStatusLine()<CR>
+nmap <silent> <F3> :call FindExecuteCommand()<CR>
+
+let s:status=2
+function! ToggleStatusLine()
+  set relativenumber! number! showmode! showcmd! hidden! list!
+  " set ruler!
+  if s:status == 2
+    set laststatus=0
+    set nospell
+    set ft=text
+    let s:status=0
+  else
+    set laststatus=2
+    set spell
+    set ft=markdown
+    let s:status=2
+  endif
+endfunction
+
+function! FindExecuteCommand()
+  let line = search('\S*!'.'!:.*')
+  if line > 0
+    let command = substitute(getline(line), "\S*!"."!:*", "", "")
+    execute "silent !". command
+    execute "normal gg0"
+    redraw
+  endif
+endfunction
 "" }}}

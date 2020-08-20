@@ -1,0 +1,320 @@
+# Unit testing using Vader: https://github.com/junegunn/vader.vim
+# To run: `vim -u tests/test-vimrc +Vader tests/simplenote.vader`
+#
+# Creates a new note and uses simplenote.py to verify a note of that key has been created
+Given:
+  A test note
+
+
+Execute (Create a new note):
+  let g:SimplenoteUsername = "simplenote-test@lordofhosts.de"
+  let g:SimplenotePassword = "foobar"
+  :SimplenoteNew
+
+Execute python:
+  import simplenote
+  import vim
+  sn = simplenote.Simplenote("simplenote-test@lordofhosts.de", "foobar")
+  start = vim.current.buffer.name.rfind("_")+1
+  snkey = vim.current.buffer.name[start:]
+  note, status = sn.get_note(snkey)
+  vim.current.buffer.append(note["content"])
+
+Expect:
+  A test note
+  A test note
+# Using simplenote.py to verify note creation and append to buffer, hence why expect two lines the same
+
+
+# Updates a note
+Given:
+  A second test note
+
+Execute (Update a note):
+  :SimplenoteNew
+  call setline(1, "An updated note")
+  :SimplenoteUpdate
+
+Execute python:
+  start = vim.current.buffer.name.rfind("_")+1
+  snkey = vim.current.buffer.name[start:]
+  note_original, status = sn.get_note(snkey,1)
+  vim.current.buffer.append(note_original["content"])
+  note_updated, status = sn.get_note(snkey)
+  vim.current.buffer.append(note_updated["content"])
+
+Expect:
+  A second test note
+  A second test note
+  An updated note
+
+
+# Trashes a note
+Given:
+  A third test note
+
+Execute:
+  :SimplenoteNew
+
+Execute python:
+  start = vim.current.buffer.name.rfind("_")+1
+  snkey = vim.current.buffer.name[start:]
+
+Execute (Trash a note):
+  :SimplenoteTrash
+
+Execute python:
+  note, status = sn.get_note(snkey)
+  vim.current.buffer.append(str(note["deleted"]))
+
+Expect:
+  A third test note
+  True
+
+
+# Deletes a note
+Given:
+  A fourth test note
+
+Execute:
+  :SimplenoteNew
+
+Execute python:
+  start = vim.current.buffer.name.rfind("_")+1
+  snkey = vim.current.buffer.name[start:]
+
+Execute (Delete a note):
+  :SimplenoteDelete
+
+Execute python:
+  note, status = sn.get_note(snkey)
+  vim.current.buffer.append(str(note.code))
+
+Expect:
+  A fourth test note
+  404
+
+
+# Open a note by key
+Given:
+  A fifth test note
+
+Execute:
+  :SimplenoteNew
+  let b:sntitle = expand('%:t')
+  let b:snstart = strridx(b:sntitle, "_")+1
+  let b:snkey = strpart(b:sntitle, b:snstart)
+
+Given:
+  A sixth test note
+
+Execute (Open a note by key):
+  :SimplenoteNew
+  execute "SimplenoteOpen " . b:snkey
+
+Expect:
+  A fifth test note
+
+
+# Tag a note
+Given:
+  A seventh test note
+
+Do (Tag a new note):
+  :SimplenoteNew\<CR>
+  :SimplenoteTag\<CR>tag\<CR>
+
+Execute python:
+  start = vim.current.buffer.name.rfind("_")+1
+  snkey = vim.current.buffer.name[start:]
+  note, status = sn.get_note(snkey)
+  vim.current.buffer.append(str(note["tags"][0]))
+
+Expect:
+  A seventh test note
+  tag
+
+
+# Pin a note
+Given:
+  A note to pin
+
+Execute (Pin a note):
+  :SimplenoteNew
+  :SimplenotePin
+
+Execute python:
+  import time
+  start = vim.current.buffer.name.rfind("_")+1
+  snkey = vim.current.buffer.name[start:]
+  time.sleep(2)
+  note, status = sn.get_note(snkey)
+  vim.current.buffer.append("pinned") if ("pinned" in note["systemtags"]) else vim.current.buffer.append(str(note))
+
+Expect:
+  A note to pin
+  pinned
+
+
+# Unpin a note
+Given:
+  A note to unpin
+
+Execute (Unpin a note):
+  :SimplenoteNew
+  :SimplenotePin
+  sleep 5
+  :SimplenoteUnpin
+
+Execute python:
+  start = vim.current.buffer.name.rfind("_")+1
+  snkey = vim.current.buffer.name[start:]
+  time.sleep(5)
+  note, status = sn.get_note(snkey)
+  if (not ("pinned" in note["systemtags"])): vim.current.buffer.append("unpinned")
+
+Expect:
+  A note to unpin
+  unpinned
+
+
+# Retrieve a version of a note
+Given:
+  An initial verision of a note
+
+Execute (Retrieve a version of a note):
+  :SimplenoteNew
+  call setline(1, "A second version of a note")
+  :SimplenoteUpdate
+  call setline(1, "A third version of a note")
+  :SimplenoteUpdate
+  :SimplenoteVersion 2
+
+Expect:
+  A second version of a note
+
+
+# Reset versioning of a note, but, but no longer works with modified buffers
+Given:
+  An initial verision of a note
+
+Execute (Reset a version of a note):
+  :SimplenoteNew
+  call setline(1, "A second version of a note")
+  :SimplenoteUpdate
+  :SimplenoteVersion 1
+  :SimplenoteVersion
+
+Expect:
+  A second version of a note
+
+# Merge a note
+Given:
+  An initial version of a note
+
+Execute:
+  :SimplenoteNew
+
+Execute python:
+  start = vim.current.buffer.name.rfind("_")+1
+  snkey = vim.current.buffer.name[start:]
+  note_original, status = sn.get_note(snkey)
+  note_original["content"] += "\nA second version of a note"
+  sn.update_note(note_original)
+
+Execute (Merge a note):
+  call setline(2, "A third version of a note")
+  :SimplenoteUpdate
+
+Expect:
+  An initial version of a note
+  A second version of a note
+  A third version of a note
+
+
+
+
+# Save a note to a local file
+Given:
+  A note that will be saved to disk
+
+Execute (Save a note to a local file with :w {file}):
+  :SimplenoteNew
+  :w testNote.txt
+  :read testNote.txt 
+  :call delete("test.txt")
+
+Expect:
+  A note that will be saved to disk
+  A note that will be saved to disk
+
+
+# Save a note to a local file with :saveas
+Given:
+  A note that will be saved to disk and then modified locally
+
+Execute (Save a note to a local file with :saveas {file}):
+  :SimplenoteNew
+  :saveas testNote.txt
+  :call setline(2 ,"Local modification")
+  :w
+  :%d
+  :e!
+
+Expect:
+  A note that will be saved to disk and then modified locally
+  Local modification
+
+Execute (Delete test file):
+  :call delete("testNote.txt")
+
+
+
+
+# Get a list of notes
+Execute (Get a list of notes):
+  :SimplenoteList
+  "Below is required as Simplenote list sets buffer to unmodifiable so need to set it to modifiable... 
+  :set modifiable
+  AssertEqual 12, line('$')
+  "and clear it
+  :1,$d
+
+# Create a new note, make local modifications and re-open. Re-opening should not overwrite local mods.
+# This also effectively tests re-opening from the note index as it also goes through `display_note_in_scratch_buffer`
+Given:
+  A note we want to modify
+
+Execute (Don't overwrite modified, but unsaved notes):
+  :SimplenoteNew
+  let s:sntitle = expand('%:t')
+  let s:snstart = strridx(s:sntitle, "_")+1
+  let s:snkey = strpart(s:sntitle, s:snstart)
+  call setline(2, "Some text")
+  execute "SimplenoteOpen " . s:snkey
+
+Expect:
+  A note we want to modify
+  Some text
+
+# Cleanup Remote
+Execute python (Cleanup remote):
+  res, status = sn.get_note_list()
+  while (len(res) > 0) and (status == 0):
+    [sn.delete_note(n["key"]) for n in res]
+    res, status = sn.get_note_list()
+
+
+# Cleanup locally
+Execute (Cleanup locally):
+  "Remove unneeded buffers
+  let tablist = []
+  for i in range(tabpagenr('$'))
+    call extend(tablist, tabpagebuflist(i + 1))
+  endfor
+  let nWipeouts = 0
+  for i in range(1, bufnr('$'))
+    if bufexists(i) && (match(bufname(i), "simplenote.vader") == -1) && (match(bufname(i), "Quickfix List") == -1) && (match(bufname(i), "Vader") == -1)
+      silent exec 'bwipeout!' i
+    endif
+  endfor

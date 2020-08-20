@@ -1,0 +1,420 @@
+let SessionLoad = 1
+if &cp | set nocp | endif
+let s:cpo_save=&cpo
+set cpo&vim
+inoremap <silent> <Plug>CocRefresh =coc#_complete()
+inoremap <silent> <Plug>(ale_complete) :ALEComplete
+inoremap <expr> <C-K> HUDG_GetDigraph()
+inoremap <C-F> 
+inoremap <Nul> 
+map! <D-v> *
+nmap  :Lexplore
+nmap  :CtrlPBuffer
+nmap <silent>  :lgrep  ./**:lopen
+nnoremap 	 :bnext
+nmap <NL> ddp
+nmap  ddkP
+nnoremap <silent>  :CtrlP
+nmap  :%s/\<\>/
+nnoremap x :bdelete
+nnoremap  :Commentaryj
+vnoremap  :Commentary
+nnoremap <silent>   :nohlsearch|:echo
+nmap ! :!
+omap <silent> % <Plug>(MatchitOperationForward)
+xmap <silent> % <Plug>(MatchitVisualForward)
+nmap <silent> % <Plug>(MatchitNormalForward)
+vmap < <gv
+vmap > >gv
+nnoremap H ^
+nnoremap L $
+nmap P :CtrlP ./
+omap <silent> [% <Plug>(MatchitOperationMultiBackward)
+xmap <silent> [% <Plug>(MatchitVisualMultiBackward)
+nmap <silent> [% <Plug>(MatchitNormalMultiBackward)
+nnoremap <silent> [[ :call search('^\S\@=.*{\s*$', 'besW')
+nmap \b :CtrlPBuffer
+nmap \pl :set spelllang=pl
+nmap \en :set spelllang=en_gb
+nnoremap \x :bdelete
+vnoremap \e c=system('base64', @")<BS>gv<Left>
+vnoremap \d c=system('base64 --decode', @")gv<Left>
+nnoremap <silent> \= :vertical resize -9
+nnoremap <silent> \- :vertical resize +9
+nmap \; yyq:p
+nmap <silent> \] :lnext
+nmap <silent> \[ :lprevious
+nmap \mks :mksession! .session
+nmap <silent> \s :let p=testsystem("dlv exec p --headless --listen=:2345 --log --accept-multiclient > /tmp/$(date +%s)&":echo "Started at :2345"
+noremap \\ 
+omap <silent> ]% <Plug>(MatchitOperationMultiForward)
+xmap <silent> ]% <Plug>(MatchitVisualMultiForward)
+nmap <silent> ]% <Plug>(MatchitNormalMultiForward)
+nnoremap <silent> ]] :call search('^\S\@=.*{\s*$', 'esW')
+xmap a% <Plug>(MatchitVisualTextObject)
+nmap gcu <Plug>Commentary<Plug>Commentary
+nmap gcc <Plug>CommentaryLine
+omap gc <Plug>Commentary
+nmap gc <Plug>Commentary
+xmap gc <Plug>Commentary
+vmap gx <Plug>NetrwBrowseXVis
+nmap gx <Plug>NetrwBrowseX
+omap <silent> g% <Plug>(MatchitOperationBackward)
+xmap <silent> g% <Plug>(MatchitVisualBackward)
+nmap <silent> g% <Plug>(MatchitNormalBackward)
+vnoremap y "+y
+nnoremap <silent> <C-P> :CtrlP
+nmap <silent> <Plug>CommentaryUndo :echoerr "Change your <Plug>CommentaryUndo map to <Plug>Commentary<Plug>Commentary"
+onoremap <silent> <Plug>(coc-funcobj-a) :call coc#rpc#request('selectFunction', [v:false, ''])
+onoremap <silent> <Plug>(coc-funcobj-i) :call coc#rpc#request('selectFunction', [v:true, ''])
+vnoremap <silent> <Plug>(coc-funcobj-a) :call coc#rpc#request('selectFunction', [v:false, visualmode()])
+vnoremap <silent> <Plug>(coc-funcobj-i) :call coc#rpc#request('selectFunction', [v:true, visualmode()])
+nnoremap <silent> <Plug>(coc-cursors-position) :call coc#rpc#request('cursorsSelect', [bufnr('%'), 'position', 'n'])
+nnoremap <silent> <Plug>(coc-cursors-word) :call coc#rpc#request('cursorsSelect', [bufnr('%'), 'word', 'n'])
+vnoremap <silent> <Plug>(coc-cursors-range) :call coc#rpc#request('cursorsSelect', [bufnr('%'), 'range', visualmode()])
+nnoremap <Plug>(coc-refactor) :call       CocActionAsync('refactor')
+nnoremap <Plug>(coc-command-repeat) :call       CocAction('repeatCommand')
+nnoremap <Plug>(coc-float-jump) :call       coc#util#float_jump()
+nnoremap <Plug>(coc-float-hide) :call       coc#util#float_hide()
+nnoremap <Plug>(coc-fix-current) :call       CocActionAsync('doQuickfix')
+nnoremap <Plug>(coc-openlink) :call       CocActionAsync('openLink')
+nnoremap <Plug>(coc-references) :call       CocAction('jumpReferences')
+nnoremap <Plug>(coc-type-definition) :call       CocAction('jumpTypeDefinition')
+nnoremap <Plug>(coc-implementation) :call       CocAction('jumpImplementation')
+nnoremap <Plug>(coc-declaration) :call       CocAction('jumpDeclaration')
+nnoremap <Plug>(coc-definition) :call       CocAction('jumpDefinition')
+nnoremap <Plug>(coc-diagnostic-prev-error) :call       CocActionAsync('diagnosticPrevious', 'error')
+nnoremap <Plug>(coc-diagnostic-next-error) :call       CocActionAsync('diagnosticNext',     'error')
+nnoremap <Plug>(coc-diagnostic-prev) :call       CocActionAsync('diagnosticPrevious')
+nnoremap <Plug>(coc-diagnostic-next) :call       CocActionAsync('diagnosticNext')
+nnoremap <Plug>(coc-diagnostic-info) :call       CocActionAsync('diagnosticInfo')
+nnoremap <Plug>(coc-format) :call       CocActionAsync('format')
+nnoremap <Plug>(coc-rename) :call       CocActionAsync('rename')
+nnoremap <Plug>(coc-codeaction) :call       CocActionAsync('codeAction',         '')
+vnoremap <Plug>(coc-codeaction-selected) :call       CocActionAsync('codeAction',         visualmode())
+vnoremap <Plug>(coc-format-selected) :call       CocActionAsync('formatSelected',     visualmode())
+nnoremap <Plug>(coc-codelens-action) :call       CocActionAsync('codeLensAction')
+nnoremap <Plug>(coc-range-select) :call       CocAction('rangeSelect',     '', v:true)
+vnoremap <Plug>(coc-range-select-backword) :call       CocAction('rangeSelect',     visualmode(), v:false)
+vnoremap <Plug>(coc-range-select) :call       CocAction('rangeSelect',     visualmode(), v:true)
+nnoremap <silent> <Plug>(ale_go_to_type_definition_in_vsplit) :ALEGoToTypeDefinitionInVSplit
+nnoremap <silent> <Plug>(ale_go_to_type_definition_in_split) :ALEGoToTypeDefinitionInSplit
+nnoremap <silent> <Plug>(ale_go_to_type_definition_in_tab) :ALEGoToTypeDefinitionInTab
+nnoremap <silent> <Plug>(ale_go_to_definition_in_vsplit) :ALEGoToDefinitionInVSplit
+nnoremap <silent> <Plug>(ale_go_to_definition_in_split) :ALEGoToDefinitionInSplit
+nnoremap <silent> <Plug>(ale_go_to_definition_in_tab) :ALEGoToDefinitionInTab
+nnoremap <silent> <Plug>(ale_repeat_selection) :ALERepeatSelection
+nnoremap <silent> <Plug>(ale_rename) :ALERename
+nnoremap <silent> <Plug>(ale_documentation) :ALEDocumentation
+nnoremap <silent> <Plug>(ale_hover) :ALEHover
+nnoremap <silent> <Plug>(ale_find_references) :ALEFindReferences
+nnoremap <silent> <Plug>(ale_go_to_type_definition) :ALEGoToTypeDefinition
+nnoremap <silent> <Plug>(ale_go_to_definition) :ALEGoToDefinition
+nnoremap <silent> <Plug>(ale_fix) :ALEFix
+nnoremap <silent> <Plug>(ale_detail) :ALEDetail
+nnoremap <silent> <Plug>(ale_lint) :ALELint
+nnoremap <silent> <Plug>(ale_reset_buffer) :ALEResetBuffer
+nnoremap <silent> <Plug>(ale_disable_buffer) :ALEDisableBuffer
+nnoremap <silent> <Plug>(ale_enable_buffer) :ALEEnableBuffer
+nnoremap <silent> <Plug>(ale_toggle_buffer) :ALEToggleBuffer
+nnoremap <silent> <Plug>(ale_reset) :ALEReset
+nnoremap <silent> <Plug>(ale_disable) :ALEDisable
+nnoremap <silent> <Plug>(ale_enable) :ALEEnable
+nnoremap <silent> <Plug>(ale_toggle) :ALEToggle
+nnoremap <silent> <Plug>(ale_last) :ALELast
+nnoremap <silent> <Plug>(ale_first) :ALEFirst
+nnoremap <silent> <Plug>(ale_next_wrap_warning) :ALENext -wrap -warning
+nnoremap <silent> <Plug>(ale_next_warning) :ALENext -warning
+nnoremap <silent> <Plug>(ale_next_wrap_error) :ALENext -wrap -error
+nnoremap <silent> <Plug>(ale_next_error) :ALENext -error
+nnoremap <silent> <Plug>(ale_next_wrap) :ALENextWrap
+nnoremap <silent> <Plug>(ale_next) :ALENext
+nnoremap <silent> <Plug>(ale_previous_wrap_warning) :ALEPrevious -wrap -warning
+nnoremap <silent> <Plug>(ale_previous_warning) :ALEPrevious -warning
+nnoremap <silent> <Plug>(ale_previous_wrap_error) :ALEPrevious -wrap -error
+nnoremap <silent> <Plug>(ale_previous_error) :ALEPrevious -error
+nnoremap <silent> <Plug>(ale_previous_wrap) :ALEPreviousWrap
+nnoremap <silent> <Plug>(ale_previous) :ALEPrevious
+vnoremap <silent> <Plug>NetrwBrowseXVis :call netrw#BrowseXVis()
+nnoremap <silent> <Plug>NetrwBrowseX :call netrw#BrowseX(netrw#GX(),netrw#CheckIfRemote(netrw#GX()))
+nnoremap <C-X> :Commentaryj
+vnoremap <C-X> :Commentary
+nmap <F8> :TagbarToggle
+nmap <C-E> :CtrlPBuffer
+map <S-F2> :cnext
+map <F2> :cnext
+nmap <C-B> :Lexplore
+xmap <silent> <Plug>(MatchitVisualTextObject) <Plug>(MatchitVisualMultiBackward)o<Plug>(MatchitVisualMultiForward)
+onoremap <silent> <Plug>(MatchitOperationMultiForward) :call matchit#MultiMatch("W",  "o")
+onoremap <silent> <Plug>(MatchitOperationMultiBackward) :call matchit#MultiMatch("bW", "o")
+xnoremap <silent> <Plug>(MatchitVisualMultiForward) :call matchit#MultiMatch("W",  "n")m'gv``
+xnoremap <silent> <Plug>(MatchitVisualMultiBackward) :call matchit#MultiMatch("bW", "n")m'gv``
+nnoremap <silent> <Plug>(MatchitNormalMultiForward) :call matchit#MultiMatch("W",  "n")
+nnoremap <silent> <Plug>(MatchitNormalMultiBackward) :call matchit#MultiMatch("bW", "n")
+onoremap <silent> <Plug>(MatchitOperationBackward) :call matchit#Match_wrapper('',0,'o')
+onoremap <silent> <Plug>(MatchitOperationForward) :call matchit#Match_wrapper('',1,'o')
+xnoremap <silent> <Plug>(MatchitVisualBackward) :call matchit#Match_wrapper('',0,'v')m'gv``
+xnoremap <silent> <Plug>(MatchitVisualForward) :call matchit#Match_wrapper('',1,'v')m'gv``
+nnoremap <silent> <Plug>(MatchitNormalBackward) :call matchit#Match_wrapper('',0,'n')
+nnoremap <silent> <Plug>(MatchitNormalForward) :call matchit#Match_wrapper('',1,'n')
+nnoremap <C-W>x :bdelete
+nnoremap <S-Tab> :bprevious
+nmap <C-J> ddp
+nmap <C-K> ddkP
+nmap <silent> <C-H> :lgrep  ./**:lopen
+nmap <C-S> :%s/\<\>/
+vmap <BS> "-d
+vmap <D-x> "*d
+vmap <D-c> "*y
+vmap <D-v> "-d"*P
+nmap <D-v> "*P
+inoremap  
+inoremap <expr>  HUDG_GetDigraph()
+iabbr <expr> dts strftime("%c")
+let &cpo=s:cpo_save
+unlet s:cpo_save
+set background=dark
+set backspace=indent,eol,start
+set clipboard=unnamed,unnamedplus
+set noequalalways
+set expandtab
+set fileencodings=ucs-bom,utf-8,default,latin1
+set foldlevelstart=99
+set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep\ $*
+set helplang=en
+set hlsearch
+set ignorecase
+set incsearch
+set laststatus=2
+set lazyredraw
+set listchars=tab:\ \ ,trail:·
+set mouse=a
+set nrformats=
+set path=**
+set runtimepath=
+set runtimepath+=~/.vim
+set runtimepath+=~/.vim/pack/plugins/start/vim-minizinc
+set runtimepath+=~/.vim/pack/plugins/start/vim-markdown
+set runtimepath+=~/.vim/pack/plugins/start/vim-flutter
+set runtimepath+=~/.vim/pack/plugins/start/vim-fish
+set runtimepath+=~/.vim/pack/plugins/start/vim-elm-syntax
+set runtimepath+=~/.vim/pack/plugins/start/vim-colors-pencil
+set runtimepath+=~/.vim/pack/plugins/start/typescript-vim
+set runtimepath+=~/.vim/pack/plugins/start/tagbar-markdown
+set runtimepath+=~/.vim/pack/plugins/start/tagbar
+set runtimepath+=~/.vim/pack/plugins/start/simplenote
+set runtimepath+=~/.vim/pack/plugins/start/rust.vim
+set runtimepath+=~/.vim/pack/plugins/start/presenting
+set runtimepath+=~/.vim/pack/plugins/start/plantuml-syntax
+set runtimepath+=~/.vim/pack/plugins/start/lightline
+set runtimepath+=~/.vim/pack/plugins/start/gruvbox
+set runtimepath+=~/.vim/pack/plugins/start/dart-vim-plugin
+set runtimepath+=~/.vim/pack/plugins/start/ctrlp
+set runtimepath+=~/.vim/pack/plugins/start/commentary
+set runtimepath+=~/.vim/pack/plugins/start/coc
+set runtimepath+=~/.vim/pack/plugins/start/ale
+set runtimepath+=/usr/local/share/vim/vimfiles
+set runtimepath+=/usr/local/share/vim/vim82
+set runtimepath+=/usr/local/share/vim/vim82/pack/dist/opt/matchit
+set runtimepath+=~/.vim/pack/plugins/start/vim-markdown/after
+set runtimepath+=~/.vim/pack/plugins/start/rust.vim/after
+set runtimepath+=/usr/local/share/vim/vimfiles/after
+set runtimepath+=~/.vim/after
+set scrolloff=999
+set shiftwidth=2
+set smartcase
+set smarttab
+set softtabstop=2
+set spelllang=en_gb
+set noswapfile
+set tabline=%!lightline#tabline()
+set tabstop=2
+set timeoutlen=999
+set ttimeout
+set ttimeoutlen=0
+set undodir=/tmp/vim-undo
+set undofile
+set undolevels=9999
+set updatetime=500
+set wildignore=node_modules/*,.git
+set wildmenu
+set wildmode=longest:full,full
+set nowritebackup
+let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
+let v:this_session=expand("<sfile>:p")
+silent only
+silent tabonly
+cd ~/.dotfiles
+if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
+  let s:wipebuf = bufnr('%')
+endif
+set shortmess=aoO
+argglobal
+%argdel
+$argadd gitconfig
+edit fish/functions/v.fish
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+argglobal
+setlocal keymap=
+setlocal noarabic
+setlocal noautoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+set colorcolumn=90
+setlocal colorcolumn=90
+setlocal comments=:#
+setlocal commentstring=#%s
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+set cursorcolumn
+setlocal cursorcolumn
+set cursorline
+setlocal cursorline
+setlocal cursorlineopt=both
+setlocal define=\\v^\\s*function>
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=%Afish:\ %m,%-G%*\\\ ^,%-Z%f\ (line\ %l):%s
+setlocal expandtab
+if &filetype != 'fish'
+setlocal filetype=fish
+endif
+setlocal fixendofline
+set foldcolumn=2
+setlocal foldcolumn=2
+setlocal foldenable
+setlocal foldexpr=fish#Fold()
+setlocal foldignore=#
+setlocal foldlevel=99
+setlocal foldmarker={{{,}}}
+set foldmethod=syntax
+setlocal foldmethod=expr
+setlocal foldminlines=1
+set foldnestmax=1
+setlocal foldnestmax=1
+setlocal foldtext=foldtext()
+setlocal formatexpr=fish#Format()
+setlocal formatoptions=cqron1j
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=\\v^\\s*\\.>
+setlocal includeexpr=
+setlocal indentexpr=fish#Indent()
+setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e,=end,=else,=case
+setlocal noinfercase
+setlocal iskeyword=@,48-57,-,_,.,/
+setlocal keywordprg=fish\ ~/.dotfiles/vim/pack/plugins/start/vim-fish/bin/man.fish
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+set list
+setlocal list
+setlocal makeencoding=
+setlocal makeprg=fish\ --no-execute\ %
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=fish#Complete
+setlocal path=**,~/.config/fish/functions,/usr/local/Cellar/fish/3.1.0_1/etc/fish/functions,/usr/local/Cellar/fish/3.1.0_1/share/fish/vendor_functions.d,/usr/local/share/fish/vendor_functions.d,/usr/local/Cellar/fish/3.1.0_1/share/fish/functions
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+set relativenumber
+setlocal relativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal scrolloff=-1
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal showbreak=
+setlocal sidescrolloff=-1
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal softtabstop=2
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en_gb
+setlocal statusline=%{lightline#link()}%#LightlineLeft_active_0#%(\ %{lightline#mode()}\ %)%{(&paste)?\"|\":\"\"}%(\ %{&paste?\"PASTE\":\"\"}\ %)%#LightlineLeft_active_0_1#%#LightlineLeft_active_1#%(\ %R\ %)%{(&readonly)&&(1||(&modified||!&modifiable))?\"|\":\"\"}%(\ %t\ %)%{(&modified||!&modifiable)?\"|\":\"\"}%(\ %M\ %)%#LightlineLeft_active_1_2#%#LightlineMiddle_active#%=%#LightlineRight_active_2_3#%#LightlineRight_active_2#%(\ %{&ff}\ %)%{1||1?\"|\":\"\"}%(\ %{&fenc!=#\"\"?&fenc:&enc}\ %)%{1?\"|\":\"\"}%(\ %{&ft!=#\"\"?&ft:\"no\ ft\"}\ %)%#LightlineRight_active_1_2#%#LightlineRight_active_1#%(\ %3p%%\ %)%#LightlineRight_active_0_1#%#LightlineRight_active_0#%(\ %3l:%-2v\ %)
+setlocal suffixesadd=.fish
+setlocal noswapfile
+setlocal synmaxcol=3000
+if &syntax != 'fish'
+setlocal syntax=fish
+endif
+setlocal tabstop=2
+setlocal tagcase=
+setlocal tagfunc=
+setlocal tags=
+setlocal termwinkey=
+setlocal termwinscroll=10000
+setlocal termwinsize=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal undofile
+setlocal undolevels=-123456
+setlocal varsofttabstop=
+setlocal vartabstop=
+setlocal wincolor=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+set nowrap
+setlocal nowrap
+setlocal wrapmargin=0
+let s:l = 2 - ((1 * winheight(0) + 12) / 25)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+2
+normal! 0
+tabnext 1
+badd +0 fish/functions/v.fish
+badd +20 gitconfig
+badd +1 fish/functions/vim.fish
+if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
+  silent exe 'bwipe ' . s:wipebuf
+endif
+unlet! s:wipebuf
+set winheight=1 winwidth=20 shortmess=filnxtToOS
+set winminheight=1 winminwidth=1
+let s:sx = expand("<sfile>:p:r")."x.vim"
+if file_readable(s:sx)
+  exe "source " . fnameescape(s:sx)
+endif
+let &so = s:so_save | let &siso = s:siso_save
+nohlsearch
+doautoall SessionLoadPost
+unlet SessionLoad
+" vim: set ft=vim :
