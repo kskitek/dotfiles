@@ -43,3 +43,6 @@
 [submodule "vim/pack/plugins/start/vim-elm-syntax"]
 	path = vim/pack/plugins/start/vim-elm-syntax
 	url = https://github.com/andys8/vim-elm-syntax
+[submodule "vim/pack/plugins/auto/fern.vim"]
+	path = vim/pack/plugins/auto/fern.vim
+	url = https://github.com/lambdalisue/fern.vim.git
