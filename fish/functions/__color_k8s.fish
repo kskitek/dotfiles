@@ -10,6 +10,7 @@ function __color_k8s
   | sed "s/Ready/$green Ready$normal/g" \
   | sed "s/Bound/$green Bound$normal/g" \
   | sed "s/Pending/$yellow Pending$normal/g" \
+  | sed "s/ContainerCreating/$yellow ContainerCreating$normal/g" \
   | sed "s/Completed/$blue Completed$normal/g" \
   | sed "s/Error/$red Error$normal/g" \
   | sed "s/Evicted/$red Evicted$normal/g" \

@@ -12,16 +12,12 @@ set encoding=utf-8
 " Next step is to comment out all experimental options.
 
 "" EXPERIMENTAL {{{
-
 set foldcolumn=2
 
 set linebreak
 
 set showcmd " TODO does not work with COC
 set hidden
-
-" set formatoptions+=t
-noremap <leader><leader> <C-W><C-w>
 
 " delve experimental mappings
 " start debugger
@@ -56,13 +52,6 @@ nnoremap L $
 
 "" }}}
 "" MISCLEANUOUS {{{
-
-" nrformats-=octal
-set nrformats= " set nr format to decimal. Default is octal
-
-set tabstop=2 softtabstop=2 shiftwidth=2
-set expandtab smarttab
-
 set backspace=indent,eol,start
 
 set nobackup noswapfile nowritebackup
@@ -76,15 +65,14 @@ set lazyredraw
 set timeout ttimeout timeoutlen=999 ttimeoutlen=0
 set ttyfast
 "" }}}
-"" SESSIONS {{{
-nmap <leader>mks :mksession! .session<CR>
-"" }}}
 "" SEARCH {{{
 
 set wildmenu
 set path=**
 set wildignore+=node_modules/*,.git
 set wildmode=longest:full,full
+
+nmap <C-o> :find *
 
 set incsearch hlsearch ignorecase smartcase
 
@@ -117,7 +105,7 @@ vnoremap <leader>e c<c-r>=system('base64', @")<cr><BS><esc>gv<left>
 
 " nmap <C-k> :make test
 " nmap <C-j> :make build run
-inoremap <Nul> <C-x><C-o>
+" inoremap <Nul> <C-x><C-o>
 inoremap <C-f> <C-x><C-f>
 
 nmap <C-k> ddkP
@@ -134,7 +122,7 @@ nnoremap <C-w>x :bdelete<CR>
 set noequalalways
 
 "" }}}
-"" COLORS and HL {{{
+"" COLORS and HIGHLIGHT {{{
 
 set t_Co=256
 colorscheme pencil
@@ -150,8 +138,8 @@ set numberwidth=4
 set cursorline
 set cursorcolumn
 set colorcolumn=90
-hi CursorColumn ctermbg=gray ctermfg=black
-hi CursorLine ctermbg=gray ctermfg=black
+hi CursorColumn ctermbg=lightgray ctermfg=black
+hi CursorLine ctermbg=lightgray ctermfg=black
 hi Cursor ctermbg=magenta ctermfg=magenta
 hi Visual cterm=reverse ctermbg=black
 highlight OverLength ctermbg=red
@@ -159,34 +147,33 @@ match OverLength /\%89v.\+/
 highlight ExtraWhitespace cterm=bold ctermfg=red
 2match ExtraWhitespace /\s\+$/
 set list listchars=tab:\ \ ,trail:·
-autocmd InsertEnter * :set cursorline!
-autocmd InsertLeave * :set cursorline!
 
 " Press Space to turn off highlighting and clear any message already displayed.
 nnoremap <silent> <space> :nohlsearch<Bar>:echo<CR>
 
 "" }}}
-"" FOLDING {{{
+"" FOLDING, WRAPPING, FORMATTING {{{
 set foldmethod=syntax
 set foldlevelstart=99
 " This allows to fold only top level (functions)
 set foldnestmax=1
 
-"" }}}
-"" LINE WRAPPING {{{
 set nowrap
 
-" set textwidth=90
-" set wrap
+" nrformats-=octal
+set nrformats= " set nr format to decimal. Default is octal
+
+set tabstop=2 softtabstop=2 shiftwidth=2
+set expandtab smarttab autoindent
+
 "" }}}
 "" FileType FT SETTINGS {{{
 
 " markdown
-autocmd FileType markdown :TagbarToggle
-autocmd FileType markdown :set spell
+" autocmd FileType markdown :set spell
 autocmd BufWritePre,BufRead *.env.local :set filetype=sh
 
-au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent foldlevel=3
+au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 
 "" }}}
 "" PLUGINS {{{
@@ -203,6 +190,11 @@ set spelllang=en_gb
 nmap <leader>en :set spelllang=en_gb<CR>
 nmap <leader>pl :set spelllang=pl<CR>
 "" }}}
+
+" fern {{{
+nmap <C-B> :Fern . -drawer -toggle <CR>
+let g:fern#disable_viewer_hide_cursor = 1
+" }}}
 
 " netrw {{{
 let g:netrw_banner = 0
@@ -277,7 +269,7 @@ let g:SimplenoteNoteFormat = "[%T] %N%>[%D]"
 "" {{{ ABBREVIATIONS
 iab <expr> dts strftime("%c")
 "" }}}
-"" {{{ PRESENTATION MODE
+" {{{ PRESENTATION MODE
 nmap <silent> <leader>t :.!figlet -f small<CR>
 nmap <silent> <leader>b :.!toilet -f term -F border<CR>
 
@@ -292,12 +284,12 @@ function! ToggleStatusLine()
   if s:status == 2
     set laststatus=0
     set nospell
-    set ft=text
+    syntax off
     let s:status=0
   else
     set laststatus=2
     set spell
-    set ft=markdown
+    syntax on
     let s:status=2
   endif
 endfunction
