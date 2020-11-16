@@ -29,4 +29,5 @@ alias bc "bc --quiet"
 
 alias guidToShort "go run ~/.dotfiles/scripts/guidToShort.go"
 alias shortToGuid "go run ~/.dotfiles/scripts/shortToGuid.go"
+alias hexString "go run ~/.dotfiles/scripts/hexString.go"
 
