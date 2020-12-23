@@ -1,10 +1,9 @@
 abbr -a -- - 'cd -'
 
 abbr -a conf ~/.dotfiles
-abbr -a wrk ~/workspace
-abbr -a org ~/org
+abbr -a wrk ~/wrk
 abbr -a dow ~/Downloads
-abbr -a ar ~/workspace/arecar
+abbr -a ar ~/wrk/arecar
 
 abbr -a -g doc-puml docker run -d --rm -p 12130:8080 plantuml/plantuml-server:tomcat
 abbr -a -g doc-cadvisor sudo docker run --rm -d --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro --publish=8090:8080  google/cadvisor:latest

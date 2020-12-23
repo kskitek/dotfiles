@@ -125,7 +125,7 @@ set noequalalways
 "" COLORS and HIGHLIGHT {{{
 
 set t_Co=256
-colorscheme pencil
+" colorscheme pencil
 if $KITTY_SCHEME == "light"
   set background=light
 else
