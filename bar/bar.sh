@@ -61,7 +61,14 @@ getnotifications() {
 getnotifications &
 
 getvolume(){
-  echo "V$(pamixer --get-volume) $(pamixer --get-mute)"
+  outputDevice=$(pactl info | sed -En 's/Default Sink: (.*)/\1/p')
+  o=$outputDevice
+  case $outputDevice in
+    alsa_output.usb-SteelSeries_SteelSeries_Arctis_5_00000000-00.analog-game) outputDevice=headphones ;;
+    alsa_output.usb-SteelSeries_SteelSeries_Arctis_5_00000000-00.analog-chat) outputDevice=headphones ;;
+    *) outputDevice=speakers
+  esac
+  echo "V$(pamixer --get-volume),$(pamixer --get-mute),$outputDevice"
   # TODO pactl can subscribe to changes but it would require some adjustments..
 }
 repeat getvolume 1 &
@@ -113,7 +120,7 @@ formatwm() {
 
 formatcalendar() {
   # TODO google calendar does not work
-  calendar="%{A:~/.dotfiles/bar/calendar.sh:}%{A3:xdg-open "https://calendar.google.com":}\
+  calendar="%{A:~/.dotfiles/bar/calendar.sh:}%{A3:$BROWSER \"https://calendar.google.com\":}\
 \uf073 $1\
 %{A}%{A}"
 }
@@ -184,8 +191,7 @@ formatweather() {
 formatnotifications() {
   case $1 in
     false) notifications="\uf599" ;;
-    true) notifications="\uf59a" ;;
-    # TODO when disabled (is-paused == true) color orange
+    true) notifications="%{F$ORANGE}\uf59a%{F-}" ;;
   esac
   notifications="%{A:~/.dotfiles/bar/toggleNotifications.sh $BAR_FIFO:}$notifications%{A}"
 }
@@ -211,11 +217,17 @@ formatgcp() {
 }
 
 formatvolume() {
-  IFS= read -r vol muted <<< "$1"
+  IFS="," read -r vol muted outputDevice <<< "$1"
+  case $outputDevice in
+    headphones) volumeIcon="\uf7cb" ;;
+    speakers) volumeIcon="\ufc1d" ;;
+    *) volumeIcon="\uf028" ;;
+  esac
+
   if [ "$muted" = "true" ]; then
-		volume="%{F$ORANGE}\uf026%{F-}"
+		volume="%{F$ORANGE}\uf466%{F-}"
   else
-    volume="\uf028 ${vol}% $muted"
+    volume="$volumeIcon ${vol}%"
   fi
 
   volume="%{A:~/.dotfiles/bar/selectOutput.sh:}%{A3:pavucontrol &:}\
@@ -224,8 +236,6 @@ $volume\
 
   # TODO
   # - on scroll pamixer -i/d 5
-  # - show headphones vs speakers
-  # - fix muted
 }
 
 format() {
