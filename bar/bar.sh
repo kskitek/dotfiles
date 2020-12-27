@@ -1,8 +1,8 @@
 #!/bin/bash
 
 BAR_FIFO=/tmp/bar-fifo
-#BAR_HEIGHT=20
-BAR_FONT="3270SemiNarrow Nerd Font Mono:size=14"
+BAR_FONT=""
+BAR_FONT2="3270SemiNarrow Nerd Font Mono:size=14"
 
 FG=#FFFFFF
 BG=#222222
@@ -35,11 +35,7 @@ getclock() {
 repeat getclock 1 &
 
 getweather() {
-  w=$(http wttr.in/Poznan format==j1 | \
-    jq -r '.current_condition[] |
-     [.temp_C, .FeelsLikeC, .precipMM, .weatherCode] |
-     @csv')
-  echo "H$w"
+  echo -e "H$(http GET v2d.wttr.in/Poznan format=="%c,%t,%f,%p,%w")"
 }
 repeat getweather 900 &
 
@@ -116,73 +112,18 @@ formatwm() {
 }
 
 formatcalendar() {
-  # TODO google calendar does not work
-  calendar="%{A:~/.dotfiles/bar/calendar.sh:}%{A3:$BROWSER \"https://calendar.google.com\":}\
-\uf073 $1\
-%{A}%{A}"
+  calendar="\uf073 $1"
+  calendar="%{A:~/.dotfiles/bar/calendar.sh:}%{A3:$BROWSER calendar.google.com:}$calendar%{A}%{A}"
 }
 
 formatweather() {
   in=$(echo $1 | tr -d '"')
-  IFS="," read -r temp feelsLike precip code <<< "$in"
+  IFS="," read -r icon temp feelsLike precip wind <<< "$in"
 
-  # mapping done with the help of:
-  # - https://github.com/chubin/wttr.in/blob/master/lib/constants.py
-  # - https://www.nerdfonts.com/cheat-sheet
-  icon=""
-  case $code in
-    "113") icon="\ufa98" ;;
-    "116") icon="\ufa94" ;;
-    "119") icon="\ufa8f" ;;
-    "122") icon="\ufa8f" ;;
-    "143") icon="\ufa90" ;;
-    "176") icon="\ufa96" ;;
-    "179") icon="\ufb7d" ;;
-    "182") icon="\ufb7d" ;;
-    "185") icon="\ufb7d" ;;
-    "200") icon="\ufb7c" ;;
-    "227") icon="\ufa97" ;;
-    "230") icon="\ufa97" ;;
-    "248") icon="\ufa90" ;;
-    "260") icon="\ufa90" ;;
-    "263") icon="\ufa96" ;;
-    "266") icon="\ufa96" ;;
-    "281") icon="\ufb7d" ;;
-    "284") icon="\ufb7d" ;;
-    "293") icon="\ufa96" ;;
-    "296") icon="\ufa96" ;;
-    "299") icon="\ufa95" ;;
-    "302") icon="\ufa95" ;;
-    "305") icon="\ufa95" ;;
-    "308") icon="\ufa95" ;;
-    "311") icon="\ufb7d" ;;
-    "314") icon="\ufb7d" ;;
-    "317") icon="\ufb7d" ;;
-    "320") icon="\ufa97" ;;
-    "323") icon="\ufa97" ;;
-    "326") icon="\ufa97" ;;
-    "329") icon="\ufa97" ;;
-    "332") icon="\ufa97" ;;
-    "335") icon="\ufa97" ;;
-    "338") icon="\ufa97" ;;
-    "350") icon="\ufb7d" ;;
-    "353") icon="\ufa96" ;;
-    "356") icon="\ufa95" ;;
-    "359") icon="\ufa95" ;;
-    "362") icon="\ufb7d" ;;
-    "365") icon="\ufb7d" ;;
-    "368") icon="\ufa97" ;;
-    "371") icon="\ufa97" ;;
-    "374") icon="\ufb7d" ;;
-    "377") icon="\ufb7d" ;;
-    "386") icon="\ufb7c" ;;
-    "389") icon="\ufb7c" ;;
-    "392") icon="\ufa97" ;;
-    "395") icon="\ufa97" ;;
-  esac
-  # TODO on right click open http://wttr.in/Poznań or http://v2.wttr.in/Poznań
-  #  show it in the browser or in small floating terminal or using notify-send
-  weather="$icon ${temp}/${feelsLike}°C"
+  # TODO on left click show notification (or floating terminal) with current day forecast
+  #weather="$icon ${temp}/${feelsLike}°C"
+  weather="$icon ${temp}/${feelsLike}"
+  weather="%{A3:$BROWSER wttr.in:}$weather%{A}"
 }
 
 formatnotifications() {
@@ -244,7 +185,6 @@ format() {
   do
     case $line in
       T*) time="\uf017 ${line#?}" ;;
-      #D*) calendar="\uf073 ${line#?}" ;;
       D*) formatcalendar "${line#?}" ;;
       H*) formatweather ${line#?} ;;
       K*) formatkube ${line#?} ;;
@@ -263,5 +203,5 @@ format() {
 killall -q lemonbar
 # xdo will keep the bar below fullscreen windows
 sleep 1 && xdo above -t $(xdo id -n root) $(xdo id -n lemonbar) &
-format | lemonbar -p -F$FG -B$BG -f "$BAR_FONT" | sh
+format | lemonbar -p -F$FG -B$BG -f "$BAR_FONT" -f "$BAR_FONT2" | sh
 
