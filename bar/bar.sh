@@ -49,9 +49,7 @@ getkube() {
 repeat getkube 10 &
 
 getgcp() {
-  # TODO why this takes so much CPU?!
-  #echo "G$(gcloud config configurations list | grep True | cut -f1 -d' ')"
-  echo "Glerta"
+  echo "G$(gcloud config configurations list | grep True | cut -f1 -d' ')"
 }
 repeat getgcp 10 &
 
@@ -69,7 +67,7 @@ getvolume(){
     *) outputDevice=speakers
   esac
   echo "V$(pamixer --get-volume),$(pamixer --get-mute),$outputDevice"
-  # TODO pactl can subscribe to changes but it would require some adjustments..
+  # simple sleep is better because pactl subscribe floods with events when music is on
 }
 repeat getvolume 1 &
 
@@ -105,16 +103,15 @@ formatwm() {
 
     color="-"
     if [ "$currDesktopIdx" = "$index" ]; then
-      color=$TEAL
+      color="$TEAL+u"
     fi
-    # TODO underline/color current %{+u#099fb0}
     iconNr=$((base + iconOffset + numberOffset))
     icon=$(printf "0x%X" $iconNr | tail -c4)
     # TODO I think it should be possible to switch desktop on click
     #  %{A:bspc desktop -f $idx:}$icon%{A}
     # TODO fix 9+ to be 0 (\uf8a0)
 
-    wminfo="$wminfo %{F$color}\u$icon%{F-}"
+    wminfo="$wminfo %{F$color}\u$icon%{F--u}"
   done
 }
 
@@ -212,6 +209,8 @@ formatgcp() {
   echo $1 | grep lerta > /dev/null
   isLerta=$?
   if [ "$isLerta" -eq 0 ]; then
+    gcp="\uf1a0 %{F$ORANGE}$1%{F-}"
+  else
     gcp="\uf1a0 %{F$TEAL}$1%{F-}"
   fi
 }
