@@ -5,3 +5,5 @@ lerta.fish
 staging.fish
 production.fish
 fish/fish_variables
+
+.idea

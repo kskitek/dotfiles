@@ -45,6 +45,6 @@ end
 function __lerta_context_color
   set k8s (kubectl config current-context)
   if test (echo $k8s | grep prod)
-    #echo -n (set_color -b brred)
+    echo -n (set_color -b brred)
   end
 end

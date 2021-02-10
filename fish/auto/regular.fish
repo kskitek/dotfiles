@@ -13,6 +13,9 @@ abbr -a -g doc-chrono docker run -it --rm -p 8888:8888 --net="host" chronograf:1
 abbr -a t tree
 abbr -a t2 tree -L 2
 
+abbr -a notfirst tail -n +2
+abbr -a notlast head -n -1
+
 abbr mpv "mpv --vo=gpu --hwdec=videotoolbox --window-scale=0.5 --ontop https://" # vo=libmpv
 
 alias klog "kubectl get pod -o=name | sed -e 's/pod\///g' | fzf -m | tr \\n , | sed -e 's/,\$//g' | xargs kubetail $argv[1]"

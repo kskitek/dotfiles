@@ -14,7 +14,7 @@
 [diff "sopsdiffer"]
 	textconv = sops -d
 [alias]
-	lsd = log --oneline --graph --decorate
+  lsd = log --graph --decorate --pretty=format:'%h %Cgreen%aN%Creset %ai %Cblue%D%Cgreen %s'
 	pushf = push --force-with-lease
   kdiff = difftool --no-symlinks --dir-diff
   code-changes = "!git log --format=format: --name-only | egrep -v '^$' | sort | uniq -c | sort -rg | head -10"

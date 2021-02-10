@@ -35,7 +35,7 @@ getclock() {
 repeat getclock 1 &
 
 getweather() {
-  echo -e "H$(http GET v2d.wttr.in/Poznan format=="%c,%t,%f,%p,%w")"
+  echo -e "H$(http GET v2d.wttr.in/Poznań format=="%c,%t,%f,%p,%w")"
 }
 repeat getweather 900 &
 
@@ -45,6 +45,9 @@ getkube() {
 repeat getkube 10 &
 
 getgcp() {
+  # simpler way would be to `gcloud config get-value project`
+  # Project names can be longer. `configuration` provides bigger list of predefined settings.
+  # use `gcloud config get-value` when not using configurations
   echo "G$(gcloud config configurations list | grep True | cut -f1 -d' ')"
 }
 repeat getgcp 10 &
@@ -123,7 +126,7 @@ formatweather() {
   # TODO on left click show notification (or floating terminal) with current day forecast
   #weather="$icon ${temp}/${feelsLike}°C"
   weather="$icon ${temp}/${feelsLike}"
-  weather="%{A3:$BROWSER wttr.in:}$weather%{A}"
+  weather="%{A3:$BROWSER wttr.in/Poznań:}$weather%{A}"
 }
 
 formatnotifications() {
