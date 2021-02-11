@@ -118,3 +118,6 @@ Print
 
 {_,shift} + XF86AudioPlay
 	pamixer --toggle-mute
+
+super + q
+  ~/.dotfiles/scripts/lock.sh
