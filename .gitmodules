@@ -52,3 +52,6 @@
 [submodule "vim/pack/plugins/start/vim-coloresque"]
 	path = vim/pack/plugins/start/vim-coloresque
 	url = https://github.com/gko/vim-coloresque.git
+[submodule "vim/pack/plugins/start/vim-terraform"]
+	path = vim/pack/plugins/start/vim-terraform
+	url = https://github.com/hashivim/vim-terraform.git

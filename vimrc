@@ -12,12 +12,9 @@ set encoding=utf-8
 " Next step is to comment out all experimental options.
 
 "" EXPERIMENTAL {{{
-set foldcolumn=2
-
 set linebreak
 
 set showcmd " TODO does not work with COC
-set hidden
 
 " delve experimental mappings
 " start debugger
@@ -32,11 +29,13 @@ sign define delve_breakpoint text=●
 " use system copy clipboard
 set clipboard=unnamed,unnamedplus
 vnoremap y "+y
-" vnoremap d "+d
 
 "" }}}
 "" MOVEMENT {{{
 
+" keep cursor vertically centered; use either jk mapping or scrolloff
+" - jk mapping is slower but works regardles of filesize
+" - scrolloff works only for files not longer than x
 " nnoremap j jzz
 " nnoremap k kzz
 set scrolloff=999
@@ -45,10 +44,6 @@ vmap < <gv
 vmap > >gv
 nnoremap H ^
 nnoremap L $
-
-" Make [[ and ]] work even if the { is not in the first column
-" nnoremap <silent> [[ :call search('^\S\@=.*{\s*$', 'besW')<CR>
-" nnoremap <silent> ]] :call search('^\S\@=.*{\s*$', 'esW')<CR>
 
 "" }}}
 "" MISCLEANUOUS {{{
@@ -72,7 +67,7 @@ set path=**
 set wildignore+=node_modules/*,.git
 set wildmode=longest:full,full
 
-nmap <C-o> :find *
+" nmap <C-o> :find *
 
 set incsearch hlsearch ignorecase smartcase
 
@@ -108,11 +103,13 @@ vnoremap <leader>e c<c-r>=system('base64', @")<cr><BS><esc>gv<left>
 " inoremap <Nul> <C-x><C-o>
 inoremap <C-f> <C-x><C-f>
 
-nmap <C-k> ddkP
-nmap <C-j> ddp
+" change directory to directory of current file
+nmap <leader>cd :cd %:p:h<CR>
 
 "" }}}
 "" BUFFERS {{{
+
+set hidden
 
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
@@ -138,12 +135,12 @@ set numberwidth=4
 set cursorline
 set cursorcolumn
 set colorcolumn=90
-hi CursorColumn ctermbg=lightgray ctermfg=black
-hi CursorLine ctermbg=lightgray ctermfg=black
+" hi CursorColumn ctermbg=gray ctermfg=black
+" hi CursorLine ctermbg=lightgray ctermfg=black
 hi Cursor ctermbg=magenta ctermfg=magenta
 hi Visual cterm=reverse ctermbg=black
-highlight OverLength ctermbg=red
-match OverLength /\%89v.\+/
+" highlight OverLength ctermbg=red
+" match OverLength /\%89v.\+/
 highlight ExtraWhitespace cterm=bold ctermfg=red
 2match ExtraWhitespace /\s\+$/
 set list listchars=tab:\ \ ,trail:·
@@ -153,6 +150,7 @@ nnoremap <silent> <space> :nohlsearch<Bar>:echo<CR>
 
 "" }}}
 "" FOLDING, WRAPPING, FORMATTING {{{
+set foldcolumn=2
 set foldmethod=syntax
 set foldlevelstart=99
 " This allows to fold only top level (functions)
@@ -172,6 +170,7 @@ set expandtab smarttab autoindent
 " markdown
 " autocmd FileType markdown :set spell
 autocmd BufWritePre,BufRead *.env.local :set filetype=sh
+autocmd BufWritePre,BufRead *.env.template :set filetype=sh
 
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 
@@ -263,6 +262,11 @@ let g:vim_markdown_new_list_item_indent = 2
 let g:SimplenoteUsername = "krzysztof.skitek@gmail.com"
 let g:SimplenoteSingleWindow = 1
 let g:SimplenoteNoteFormat = "[%T] %N%>[%D]"
+"" }}}
+
+"" vim-terraform {{{
+let g:terraform_fold_sections=1
+let g:terraform_fmt_on_save=1
 "" }}}
 
 "" }}}
