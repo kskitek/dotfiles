@@ -8,5 +8,9 @@ selection=`echo -e "\u23fe Suspend\n\uf011 Shutdown" | \
 selection=`echo $selection | cut -d' ' -f2`
 case $selection in
   Shutdown) echo "shutting down" ;;
-  Suspend) systemctl suspend ;;
+  Suspend)
+    ~/.dotfiles/scripts/lock.sh &
+    sleep 0.5
+    systemctl suspend
+    ;;
 esac
