@@ -108,7 +108,8 @@ super + {Left,Down,Up,Right}
 
 ## 
 Print
-	maim -s -u | xclip -selection clipboard -t image/png -i
+  flameshot gui
+	#maim -s -u | xclip -selection clipboard -t image/png -i
 
 {_,shift} + XF86AudioRaiseVolume
 	pamixer -i {5,1}
