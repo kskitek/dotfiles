@@ -1,0 +1,12 @@
+export XDG_SESSION_TYPE=x11
+export GDK_BACKEND=x11
+export DESKTOP_SESSION=bspwm
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+export EDITOR=gvim
+export BROWSER=/usr/bin/google-chrome-stable
+
+xrandr &&
+xrdb -merge ~/.Xresources &&
+
+~/.dotfiles/autostart.sh  > /tmp/autostart.log 2>&1 /tmp/autostart.log
