@@ -3,6 +3,7 @@
 set nocompatible
 set encoding=utf-8
 
+
 " To open a fold type za or zR to open all folds.
 " Remember to not put any settings you don't understand in your .vimrc.
 " In case you don't understand what given setting does, type `:help
@@ -36,8 +37,8 @@ vnoremap y "+y
 " keep cursor vertically centered; use either jk mapping or scrolloff
 " - jk mapping is slower but works regardles of filesize
 " - scrolloff works only for files not longer than x
-" nnoremap j jzz
-" nnoremap k kzz
+nnoremap j jzz
+nnoremap k kzz
 set scrolloff=999
 
 vmap < <gv
@@ -71,18 +72,14 @@ set wildmode=longest:full,full
 
 set incsearch hlsearch ignorecase smartcase
 
-" when searching with lgrep jump with below. <C-h> or <C-g> defined it ft section
-nmap <silent> <leader>[ :lprevious<CR>
-nmap <silent> <leader>] :lnext<CR>
-nmap <C-s> :%s/\<<C-r><C-w>\>/
-nmap <silent> <C-h> :lgrep <C-r><C-w> ./**<CR>:lopen<CR>
+nnoremap <C-s> :%s/\<<C-r><C-w>\>/
+nnoremap <C-h> :grep! <C-r><C-w> <CR>:copen<CR>
 
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep\ $*
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
   let g:ctrlp_use_caching = 0
 endif
-
 
 "" }}}
 "" RANDOM SHORTCUTS {{{
@@ -121,13 +118,13 @@ set noequalalways
 "" }}}
 "" COLORS and HIGHLIGHT {{{
 
-set t_Co=256
-" colorscheme pencil
-if $KITTY_SCHEME == "light"
-  set background=light
-else
-  set background=dark
-endif
+" set t_Co=256
+" " colorscheme pencil
+" if $KITTY_SCHEME == "light"
+"   set background=light
+" else
+"   set background=dark
+" endif
 
 set number relativenumber
 set numberwidth=4
@@ -162,23 +159,30 @@ set nowrap
 set nrformats= " set nr format to decimal. Default is octal
 
 set tabstop=2 softtabstop=2 shiftwidth=2
-set expandtab smarttab autoindent
+set expandtab smarttab
+set autoindent
+set smartindent
 
 "" }}}
 "" FileType FT SETTINGS {{{
 
 " markdown
-" autocmd FileType markdown :set spell
+autocmd FileType markdown :set spell
 autocmd BufWritePre,BufRead *.env.local :set filetype=sh
 autocmd BufWritePre,BufRead *.env.template :set filetype=sh
 
+autocmd FileType make set noexpandtab
+
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
+
 
 "" }}}
 "" PLUGINS {{{
 
-filetype plugin indent on
 syntax on
+
+filetype indent on
+filetype plugin on
 
 " this package improves search matchings. E.g. type % anywhere in the code
 packadd matchit
@@ -190,11 +194,6 @@ nmap <leader>en :set spelllang=en_gb<CR>
 nmap <leader>pl :set spelllang=pl<CR>
 "" }}}
 
-" fern {{{
-nmap <C-B> :Fern . -drawer -toggle <CR>
-let g:fern#disable_viewer_hide_cursor = 1
-" }}}
-
 " netrw {{{
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
@@ -204,10 +203,6 @@ let g:netrw_winsize = 20
 nmap <C-B> :Lexplore<CR>
 "" }}}
 
-"" quickfix {{{
-map <F2> :cnext<CR>
-map <S-F2> :cnext<CR>
-"" }}}
 
 "" lightline
 set laststatus=2
@@ -241,10 +236,78 @@ set mouse=a
 set ttymouse=sgr
 set updatetime=500
 " default mappings are overwriten in vim/after/ftplugin/go.vim
+
+let $GOVIM_GOPLS_FLAGS="-remote=auto -remote.listen.timeout=0"
+packadd govim
+
+" GovimFZFSymbol is a user-defined function that can be called to start fzf in
+" a mode whereby it uses govim's new child-parent capabilities to query the
+" parent govim instance for gopls Symbol method results that then are used to
+" drive fzf.
+function GovimFZFSymbol(queryAddition)
+  let l:expect_keys = join(keys(s:symbolActions), ',')
+  let l:source = join(GOVIMParentCommand(), " ").' gopls Symbol -quickfix'
+  let l:reload = l:source." {q}"
+  call fzf#run(fzf#wrap({
+        \ 'source': l:source,
+        \ 'sink*': function('s:handleSymbol'),
+        \ 'options': [
+        \       '--with-nth', '2..',
+        \       '--expect='.l:expect_keys,
+        \       '--phony',
+        \       '--bind', 'change:reload:'.l:reload
+        \ ]}))
+endfunction
+
+" Map \s to start a symbol search
+"
+" Once you have found the symbol you want:
+"
+" * Enter will open that result in the current window
+" * Ctrl-s will open that result in a split
+" * Ctrl-v will open that result in a vertical split
+" * Ctrl-t will open that result in a new tab
+"
+nmap <Leader>s :call GovimFZFSymbol('')<CR>
+
+" s:symbolActions are the actions that, in addition to plain <Enter>,
+" we want to be able to fire from fzf. Here we map them to the corresponding
+" command in VimScript.
+let s:symbolActions = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit',
+  \ }
+
+" With thanks and reference to github.com/junegunn/fzf.vim/issues/948 which
+" inspired the following
+function! s:handleSymbol(sym) abort
+  " a:sym is a [2]string array where the first element is the
+  " key pressed (or empty if simply Enter), and the second element
+  " is the entry selected in fzf, i.e. the match.
+  "
+  " The match will be of the form:
+  "
+  "   $filename:$line:$col: $match
+  "
+  if len(a:sym) == 0
+    return
+  endif
+  let l:cmd = get(s:symbolActions, a:sym[0], "")
+  let l:match = a:sym[1]
+  let l:parts = split(l:match, ":")
+  execute 'silent' l:cmd
+  execute 'buffer' bufnr(l:parts[0], 1)
+  set buflisted
+  call cursor(l:parts[1], l:parts[2])
+  normal! zz
+endfunction
+
+
 "" }}}
 
 "" vim-delve {{{
-let g:delve_breakpoint_sign="⛔️"
+" let g:delve_breakpoint_sign="⛔️"
 " ❗️
 "" }}}
 
@@ -268,6 +331,20 @@ let g:SimplenoteNoteFormat = "[%T] %N%>[%D]"
 let g:terraform_fold_sections=1
 let g:terraform_fmt_on_save=1
 "" }}}
+
+"" elm-vim {{{
+
+let g:elm_jump_to_error = 0
+let g:elm_make_output_file = "elm.js"
+let g:elm_make_show_warnings = 1
+let g:elm_syntastic_show_warnings = 0
+let g:elm_browser_command = ""
+let g:elm_detailed_complete = 0
+let g:elm_format_autosave = 1
+let g:elm_format_fail_silently = 0
+let g:elm_setup_keybindings = 0
+
+""}}}
 
 "" }}}
 "" {{{ ABBREVIATIONS
@@ -295,16 +372,6 @@ function! ToggleStatusLine()
     set spell
     syntax on
     let s:status=2
-  endif
-endfunction
-
-function! FindExecuteCommand()
-  let line = search('\S*!'.'!:.*')
-  if line > 0
-    let command = substitute(getline(line), "\S*!"."!:*", "", "")
-    execute "silent !". command
-    execute "normal gg0"
-    redraw
   endif
 endfunction
 "" }}}
