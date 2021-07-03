@@ -1,4 +1,4 @@
-compile fish
+" compile fish
 
 setlocal foldmethod=expr
 
