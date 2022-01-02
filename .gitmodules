@@ -52,3 +52,9 @@
 [submodule "vim/pack/plugins/start/elm-vim"]
 	path = vim/pack/plugins/start/elm-vim
 	url = https://github.com/ElmCast/elm-vim.git
+[submodule "vim/pack/nvim/start/nvim-lspconfig"]
+	path = vim/pack/nvim/start/nvim-lspconfig
+	url = https://github.com/neovim/nvim-lspconfig.git
+[submodule "vim/pack/nvim/start/lualine"]
+	path = vim/pack/nvim/start/lualine
+	url = https://github.com/nvim-lualine/lualine.nvim.git
