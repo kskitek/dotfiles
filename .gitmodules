@@ -58,3 +58,15 @@
 [submodule "vim/pack/nvim/start/lualine"]
 	path = vim/pack/nvim/start/lualine
 	url = https://github.com/nvim-lualine/lualine.nvim.git
+[submodule "vim/pack/nvim/start/lsp-status"]
+	path = vim/pack/nvim/start/lsp-status
+	url = https://github.com/nvim-lua/lsp-status.nvim.git
+[submodule "vim/pack/nvim/start/telescope"]
+	path = vim/pack/nvim/start/telescope
+	url = https://github.com/nvim-telescope/telescope.nvim.git
+[submodule "vim/pack/nvim/start/plenary"]
+	path = vim/pack/nvim/start/plenary
+	url = https://github.com/nvim-lua/plenary.nvim.git
+[submodule "vim/pack/nvim/start/treesitter"]
+	path = vim/pack/nvim/start/treesitter
+	url = https://github.com/nvim-treesitter/nvim-treesitter.git
