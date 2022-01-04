@@ -39,7 +39,7 @@ vnoremap y "+y
 " - scrolloff works only for files not longer than x
 nnoremap j jzz
 nnoremap k kzz
-set scrolloff=999
+" set scrolloff=999
 
 vmap < <gv
 vmap > >gv
@@ -132,13 +132,14 @@ set numberwidth=4
 set cursorline
 set cursorcolumn
 set colorcolumn=90
-" hi CursorColumn ctermbg=gray ctermfg=black
+hi CursorColumn ctermbg=lightgray ctermfg=black
 " hi CursorLine ctermbg=lightgray ctermfg=black
 hi Cursor ctermbg=magenta ctermfg=magenta
 hi Visual cterm=reverse ctermbg=black
+hi Folded ctermbg=lightgray ctermfg=black
 " highlight OverLength ctermbg=red
 " match OverLength /\%89v.\+/
-highlight ExtraWhitespace cterm=bold ctermfg=red
+hi ExtraWhitespace cterm=bold ctermfg=red
 2match ExtraWhitespace /\s\+$/
 set list listchars=tab:\ \ ,trail:·
 
@@ -174,7 +175,7 @@ autocmd BufWritePre,BufRead *.env.template :set filetype=sh
 autocmd FileType make set noexpandtab
 
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
-
+au! BufNewFile,BufRead *.j2 set filetype=jinja foldmethod=indent
 
 "" }}}
 "" PLUGINS {{{

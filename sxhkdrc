@@ -105,6 +105,11 @@ super + S : {h,j,k,l}
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
+super + p
+  ~/.dotfiles/autoxrandr.sh select
+
+super + shift + p
+  ~/.dotfiles/autoxrandr.sh rotate
 
 ## 
 Print
@@ -117,8 +122,27 @@ Print
 {_,shift} + XF86AudioLowerVolume
 	pamixer -d {5,1}
 
-{_,shift} + XF86AudioPlay
+shift + XF86AudioPlay
 	pamixer --toggle-mute
+
+XF86AudioMute
+	pamixer --toggle-mute
+
+XF86MonBrightnessDown
+  brightnessctl s 10%-
+
+XF86MonBrightnessUp
+  brightnessctl s +10%
 
 super + q
   ~/.dotfiles/scripts/lock.sh
+
+super + shift + q
+  ~/.dotfiles/bar/powermenu.sh
+
+super + b
+  notify-send (acpi -b)
+
+super + d
+  notify-send (date +"%d-%m %H:%M:%S")
+

@@ -199,6 +199,14 @@ for _, lsp in ipairs(servers) do
   }
 end
 EOF
+
+" format on save
+autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 100)
+autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 100)
+autocmd BufWritePre *.elm lua vim.lsp.buf.formatting_sync(nil, 100)
+autocmd BufWritePre *.py lua vim.lsp.buf.formatting_sync(nil, 1000)
+autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 1000)
+
 "" }}}
 
 "" lualine {{{
@@ -218,10 +226,10 @@ require'lualine'.setup {
   },
   sections = {
     lualine_a = {'mode'},
-    -- lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_b = {'branch', 'diff'},
-    lualine_c = {'filename'},
-    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_b = {'filename', 'diff'},
+    lualine_c = {'diagnostics'},
+    lualine_c = {},
+    lualine_x = {'branch', 'encoding', 'fileformat', 'filetype'},
     lualine_y = {'progress'},
     lualine_z = {'location'}
   },

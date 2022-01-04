@@ -16,12 +16,15 @@ bspc config gapless_monocle      false
 bspc rule -a Gimp state=floating desktop='^4' follow=on
 bspc rule -a Screenkey manage=off
 
+bspc rule -a "Bluetooth Devices" state=floating
 bspc rule -a Pavucontrol state=floating
 bspc rule -a Gnome-calculator state=floating
 bspc rule -a Zathura state=tiled
 
 bspc rule -a Slack desktop='^7' follow=on
 bspc rule -a discord desktop='^7' follow=on
+bspc rule -a zoom state=floating desktop='^4'
+
 
 bspc rule -a Steam desktop='^4'
 
@@ -32,3 +35,6 @@ bspc rule -a Steam desktop='^4'
 #
 #bspc config focused_border_color "$color15"
 bspc config presel_feedback_color '#0b91d9'
+
+bspc config remove_disabled_monitors true
+bspc config remove_unplugged_monitors true

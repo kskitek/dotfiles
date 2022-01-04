@@ -1,5 +1,5 @@
 [user]
-	email = krzysztof.skitek@gmail.com
+	email = krzysztof.skitek@nobl9.com
 	name = Krzysztof Skitek
 [help]
 	autocorrect = 10
@@ -17,7 +17,7 @@
   lsd = log --graph --decorate --pretty=format:'%h %Cgreen%aN%Creset %ai %Cblue%D%Cgreen %s'
 	pushf = push --force-with-lease
   kdiff = difftool --no-symlinks --dir-diff
-  code-changes = "!git log --format=format: --name-only | egrep -v '^$' | sort | uniq -c | sort -rg | head -10"
+  code-changes = "!git log --format=format: --name-only | egrep -v '^$' | sort | uniq -c | sort -rg | head -20"
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
