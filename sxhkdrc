@@ -105,12 +105,6 @@ super + S : {h,j,k,l}
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
-super + p
-  ~/.dotfiles/autoxrandr.sh select
-
-super + shift + p
-  ~/.dotfiles/autoxrandr.sh rotate
-
 ## 
 Print
   flameshot gui
@@ -145,4 +139,16 @@ super + b
 
 super + d
   notify-send (date +"%d-%m %H:%M:%S")
+
+
+super + shift + p
+  ~/.dotfiles/scripts/displays.sh
+
+super + p
+  ~/.dotfiles/scripts/displays.sh cycle
+
+# super + p
+#   ~/.dotfiles/autoxrandr.sh select
+# super + shift + p
+#   ~/.dotfiles/autoxrandr.sh rotate
 
