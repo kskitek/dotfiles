@@ -70,3 +70,12 @@
 [submodule "vim/pack/nvim/start/treesitter"]
 	path = vim/pack/nvim/start/treesitter
 	url = https://github.com/nvim-treesitter/nvim-treesitter.git
+[submodule "vim/pack/nvim/start/tremor-vim"]
+	path = vim/pack/nvim/start/tremor-vim
+	url = https://github.com/tremor-rs/tremor-vim
+[submodule "vim/pack/nvim/start/trouble.nvim"]
+	path = vim/pack/nvim/start/trouble.nvim
+	url = https://github.com/folke/trouble.nvim.git
+[submodule "vim/pack/nvim/start/nvim-web-devicons"]
+	path = vim/pack/nvim/start/nvim-web-devicons
+	url = https://github.com/kyazdani42/nvim-web-devicons.git
