@@ -3,7 +3,6 @@
 set nocompatible
 set encoding=utf-8
 
-
 " To open a fold type za or zR to open all folds.
 " Remember to not put any settings you don't understand in your .vimrc.
 " In case you don't understand what given setting does,
@@ -90,6 +89,11 @@ hi FoldColumn ctermbg=None ctermfg=lightgrey
 highlight ExtraWhitespace cterm=bold ctermfg=red
 2match ExtraWhitespace /\s\+$/
 set list listchars=tab:\ \ ,trail:·
+
+highlight Pmenu ctermbg=None ctermfg=white
+highlight PmenuSel ctermbg=magenta ctermfg=white
+" PmenuSbar – scrollbar
+" PmenuThumb – thumb of the scrollbar
 
 " Press Space to turn off highlighting and clear any message already displayed.
 nnoremap <silent> <space> :nohlsearch<Bar>:echo<CR>
@@ -267,6 +271,11 @@ nnoremap ge <cmd>Telescope diagnostics<cr>
 
 "" treesitter {{{
 " lua require('nvim-treesitter')
+
+"" }}}
+
+"" trouble {{{
+lua require("trouble")
 
 "" }}}
 

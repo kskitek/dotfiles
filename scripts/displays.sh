@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LAYOUTS_DIR=~/.config/displayLayouts
+LAYOUTS_DIR=~/.screenlayout/
 
 function save() {
   echo "$1.sh" > $LAYOUTS_DIR/.current
@@ -19,6 +19,8 @@ function run() {
   case $? in
     0)
       save $selection
+      setxkbmap pl
+      ~/.fehbg
       ;;
     *)
       notify-send "error"
