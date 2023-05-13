@@ -79,3 +79,9 @@
 [submodule "vim/pack/nvim/start/nvim-web-devicons"]
 	path = vim/pack/nvim/start/nvim-web-devicons
 	url = https://github.com/kyazdani42/nvim-web-devicons.git
+[submodule "vim/pack/nvim/start/trouble"]
+	path = vim/pack/nvim/start/trouble
+	url = https://github.com/folke/trouble.nvim
+[submodule "vim/pack/nvim/start/copilot"]
+	path = vim/pack/nvim/start/copilot
+	url = https://github.com/github/copilot.vim

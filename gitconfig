@@ -7,9 +7,9 @@
     template = ~/.dotfiles/commit-template
 [core]
 	editor = nvim
-  pager = delta
+  #pager = delta
 [interactive]
-  diffFilter = delta --color-only
+  #diffFilter = delta --color-only
 [delta]
   navigate = true
 [merge]
@@ -37,3 +37,5 @@
   ff = only
 [init]
 	defaultBranch = main
+[push]
+	autoSetupRemote = true
