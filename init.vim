@@ -14,6 +14,8 @@ set encoding=utf-8
 "" EXPERIMENTAL {{{
 set noequalalways
 
+" temporary disable trouble plugin
+
 "" }}}
 "" CONFIG {{{
 nmap <silent> <leader>; yyq:p<CR>
@@ -28,10 +30,11 @@ vnoremap y "+y
 "" BUFFERS {{{
 set hidden
 
-nnoremap <Tab> :bnext<CR>
-nnoremap <S-Tab> :bprevious<CR>
-nnoremap <leader>x :bdelete<CR>
 " see also CtrlPBuffer
+nmap <Tab> :bnext<CR>
+nmap <S-Tab> :bprevious<CR>
+nmap <leader>x :bdelete<CR>
+nmap <Leader>f :let @/=expand("%:t") <Bar> execute 'Lexplore' expand("%:h") <Bar> normal n<CR>
 
 "" }}}
 "" MOVEMENT {{{
@@ -180,14 +183,14 @@ local on_attach = function(client, bufnr)
   -- buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
   -- buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
   --buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<leaden>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<C-r>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   -- buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   --buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   --buf_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
   buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-  buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  buf_set_keymap('n', '<C-q>', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+  buf_set_keymap('n', '<C-f>', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
 
 end
 
@@ -275,7 +278,7 @@ nnoremap ge <cmd>Telescope diagnostics<cr>
 "" }}}
 
 "" trouble {{{
-lua require("trouble")
+" lua require("trouble")
 
 "" }}}
 
