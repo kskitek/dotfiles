@@ -1,6 +1,6 @@
 set fish_greeting
 
-set -x EDITOR vim
+set -x EDITOR nvim
 
 fish_vi_key_bindings
 
@@ -13,11 +13,13 @@ set -x BAT_THEME ansi-$SCHEME
 
 ## Golang
 set -x GO111MODULE on
-set -x GOPRIVATE 'gitlab.com/lerta/*,gitlab.com/cloudthing/*'
+set -x GOPRIVATE 'gitlab.com/lerta/*,gitlab.com/cloudthing/*,github.coom/nobl9/*'
+set -x GIT_TERMINAL_PROMPT 1
 
 ## PATH
 #set -U fish_user_paths /usr/local/bin ~/.scripts ~/.dotfiles/scripts/ ~/go/bin ~/.dotfiles/scripts/kubetail/kubetail ~/tools/kubetail ~/.cargo/bin ~/tools/**/bin ~/tools/helm
 set -g fish_user_paths "/usr/local/opt/helm@2/bin" $fish_user_paths
+set -gx PATH $PATH $HOME/.krew/bin
 
 set -x BC_ENV_ARGS ~/.dotfiles/bc
 set -x GIT_TERMINAL_PROMPT 1
