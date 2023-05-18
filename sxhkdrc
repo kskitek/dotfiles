@@ -140,6 +140,9 @@ super + b
 super + d
   notify-send (date +"%d-%m %H:%M:%S")
 
+super + shift + m
+  dunstctl set-paused toggle
+  notify-send (dunstctl is-paused)
 
 super + shift + p
   ~/.dotfiles/scripts/displays.sh
