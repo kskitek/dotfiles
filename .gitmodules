@@ -31,3 +31,6 @@
 [submodule "vim/pack/nvim/start/copilot"]
 	path = vim/pack/nvim/start/copilot
 	url = https://github.com/github/copilot.vim
+[submodule "vim/pack/nvim/start/git-blame"]
+	path = vim/pack/nvim/start/git-blame
+	url = https://github.com/f-person/git-blame.nvim

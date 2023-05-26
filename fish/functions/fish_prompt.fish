@@ -10,10 +10,10 @@ function fish_prompt
   test $status = 0
   and echo -n ' '(set_color yellow)$branch
 
-  __lerta_simple_context
+  __context_square
   __jobs_count
   echo -n (set_color cyan)'λ '
-  __lerta_context_color
+  __context_color
 end
 
 function __jobs_count
@@ -21,28 +21,24 @@ function __jobs_count
   echo -n (set_color blue)"[$jobs]"
 end
 
-function __lerta_simple_context
+function __context_square
   echo -n ' '
 
   set k8s (kubectl config current-context)
-  if test (echo $k8s | grep lerta)
-    echo -n (set_color blue)'L'
-  else if test (echo $k8s | grep KC)
-    echo -n (set_color blue)'M'
-  end
+  echo -n (set_color blue) $k8s' '
 
-  if test (echo $k8s | grep prod)
-    echo -n (set_color red)'█'
-  else if test (echo $k8s | grep dev)
-    echo -n (set_color blue)'█'
-  else if test (echo $k8s | grep test)
-    echo -n (set_color yellow)'█'
-  else 
-    echo -n (set_color red) $k8s' '
-  end
+  #if test (echo $k8s | grep prod)
+  #  echo -n (set_color red)'█'
+  #else if test (echo $k8s | grep dev)
+  #  echo -n (set_color blue)'█'
+  #else if test (echo $k8s | grep test)
+  #  echo -n (set_color yellow)'█'
+  #else
+  #  echo -n (set_color red) $k8s' '
+  #end
 end
 
-function __lerta_context_color
+function __context_color
   set k8s (kubectl config current-context)
   if test (echo $k8s | grep prod)
     echo -n (set_color -b brred)
