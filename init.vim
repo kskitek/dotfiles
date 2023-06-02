@@ -282,4 +282,11 @@ nnoremap ge <cmd>Telescope diagnostics<cr>
 
 "" }}}
 
+"" git-blame {{{
+
+let g:gitblame_enabled = 0
+let g:gitblame_virtual_text_column = 50
+
+"" }}}
+
 "" }}}
