@@ -34,3 +34,15 @@
 [submodule "vim/pack/nvim/start/git-blame"]
 	path = vim/pack/nvim/start/git-blame
 	url = https://github.com/f-person/git-blame.nvim
+[submodule "vim/pack/nvim/start/nvim-dap"]
+	path = vim/pack/nvim/start/nvim-dap
+	url = https://github.com/mfussenegger/nvim-dap
+[submodule "vim/pack/nvim/start/nvim-dap-python"]
+	path = vim/pack/nvim/start/nvim-dap-python
+	url = https://github.com/mfussenegger/nvim-dap-python
+[submodule "vim/pack/nvim/start/nvim-dap-go"]
+	path = vim/pack/nvim/start/nvim-dap-go
+	url = https://github.com/leoluz/nvim-dap-go
+[submodule "vim/pack/nvim/start/nvim-dap-ui"]
+	path = vim/pack/nvim/start/nvim-dap-ui
+	url = https://github.com/rcarriga/nvim-dap-ui
