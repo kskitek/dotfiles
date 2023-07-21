@@ -1,13 +1,13 @@
 function v
   if test (count $argv) -gt 0
-    vim $argv
+    nvim $argv
   else
-    set sessionFile (fd -H .session)
+    set sessionFile (fd -H '\.session')
     echo $sessionFile
     if test -n "$sessionFile"
-      vim -S .session
+      nvim -S .session
     else
-      vim
+      nvim
     end
   end
 end

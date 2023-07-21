@@ -17,11 +17,13 @@ abbr -a t2 tree -L 2
 abbr -a notfirst tail -n +2
 abbr -a notlast head -n -1
 
-abbr mpv "mpv --vo=gpu --hwdec=videotoolbox --window-scale=0.5 --ontop https://" # vo=libmpv
+abbr -a nv nvim
+
+abbr mpv "mpv --vo=gpu --hwdec=videotoolbox --window-scale=0.5 --ontop " # vo=libmpv
 
 alias klog "kubectl get pod -o=name | sed -e 's/pod\///g' | fzf -m | tr \\n , | sed -e 's/,\$//g' | xargs kubetail $argv[1]"
 abbr kevict "kubectl get pod --field-selector=status.phase=Failed --no-headers -o custom-columns=:metadata.name | xargs kubectl delete pod"
-abbr ktopp "kubectl top pod --containers=true"
+abbr ktopc "kubectl top pod --containers=true"
 
 alias cat bat
 alias icat "kitty +kitten icat"
