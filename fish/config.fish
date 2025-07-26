@@ -8,12 +8,12 @@ set -x LC_ALL en_US.UTF-8
 set -x SHELL /usr/bin/fish
 
 # Scheme
-set -x KITTY_SCHEME $SCHEME
-set -x BAT_THEME ansi-$SCHEME
+#set -x KITTY_SCHEME $SCHEME
+#set -x BAT_THEME ansi-$SCHEME
 
 ## Golang
 set -x GO111MODULE on
-set -x GOPRIVATE 'gitlab.com/lerta/*,gitlab.com/cloudthing/*,github.com/nobl9/*'
+set -x GOPRIVATE 'gitlab.com/lerta/*,gitlab.com/cloudthing/*,github.com/nobl9/*,github.com/kskitek/*'
 set -x GIT_TERMINAL_PROMPT 1
 
 ## PATH
@@ -34,9 +34,10 @@ if test -d ~/.config/fish/auto
   end
 end
 
-if test -n "$DESKTOP_SESSION"
-    set (gnome-keyring-daemon --start | string split "=")
-end
+# TODO do I still need it in hyprland and without gdm? probably yes..
+#if test -n "$DESKTOP_SESSION"
+#    set (gnome-keyring-daemon --start | string split "=")
+#end
 
 # The next line updates PATH for the Google Cloud SDK.
 # if [ -f '/Users/kskitek/google-cloud-sdk/path.fish.inc' ]; . '/Users/kskitek/google-cloud-sdk/path.fish.inc'; end

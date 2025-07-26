@@ -67,9 +67,9 @@ nnoremap <C-r> :%s/\<<C-r><C-w>\>/
 " TODO
 "nnoremap <C-h> :grep! <C-r><C-w> <CR>:copen<CR>
 
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep\ $*
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+if executable('rg')
+  set grepprg=rg\ --nogroup\ --nocolor\ --vimgrep\ $*
+  let g:ctrlp_user_command = 'rg %s -l --nocolor -g ""'
   let g:ctrlp_use_caching = 0
 endif
 
@@ -83,18 +83,21 @@ set cursorline
 set colorcolumn=90
 " hi CursorColumn ctermbg=gray ctermfg=black
 " hi CursorLine ctermbg=lightgray ctermfg=black
-hi Cursor ctermbg=magenta ctermfg=magenta
-hi Visual cterm=reverse ctermbg=black
-hi Folded ctermbg=None ctermfg=lightgrey
-hi FoldColumn ctermbg=None ctermfg=lightgrey
-" highlight OverLength ctermbg=red
-" match OverLength /\%89v.\+/
-highlight ExtraWhitespace cterm=bold ctermfg=red
-2match ExtraWhitespace /\s\+$/
-set list listchars=tab:\ \ ,trail:·
-
-highlight Pmenu ctermbg=None ctermfg=white
-highlight PmenuSel ctermbg=magenta ctermfg=white
+highlight Normal ctermbg=NONE guibg=NONE
+highlight NormalNC ctermbg=NONE guibg=NONE
+highlight EndOfBuffer ctermbg=NONE guibg=NONE
+"hi Cursor ctermbg=magenta ctermfg=magenta
+"hi Visual cterm=reverse ctermbg=black
+"hi Folded ctermbg=None ctermfg=lightgrey
+"hi FoldColumn ctermbg=None ctermfg=lightgrey
+"" highlight OverLength ctermbg=red
+"" match OverLength /\%89v.\+/
+"highlight ExtraWhitespace cterm=bold ctermfg=red
+"2match ExtraWhitespace /\s\+$/
+"set list listchars=tab:\ \ ,trail:·
+"
+"highlight Pmenu ctermbg=None ctermfg=white
+"highlight PmenuSel ctermbg=magenta ctermfg=white
 " PmenuSbar – scrollbar
 " PmenuThumb – thumb of the scrollbar
 
@@ -196,7 +199,7 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'pyright', 'gopls', 'tsserver', 'elmls' }
+local servers = { 'pyright', 'gopls', 'ts_ls', 'elmls' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,

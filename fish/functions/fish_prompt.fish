@@ -8,12 +8,12 @@ function fish_prompt
 
   set branch (git branch --show-current 2>/dev/null)
   test $status = 0
-  and echo -n ' '(set_color yellow)$branch
+  and echo -n ' 🌱'(set_color yellow)$branch
 
+  __context_color
   __context_square
   __jobs_count
-  echo -n (set_color cyan)'λ '
-  __context_color
+  echo -n (set_color cyan)'λ '(set_color normal)
 end
 
 function __jobs_count
@@ -25,7 +25,8 @@ function __context_square
   echo -n ' '
 
   set k8s (kubectl config current-context)
-  echo -n (set_color blue) $k8s' '
+  set ns (kubectl config view --minify --output 'jsonpath={..namespace}')
+  echo -n (set_color blue)🧊$k8s'('(set_color white)$ns(set_color blue)')'
 
   #if test (echo $k8s | grep prod)
   #  echo -n (set_color red)'█'
@@ -41,6 +42,6 @@ end
 function __context_color
   set k8s (kubectl config current-context)
   if test (echo $k8s | grep prod)
-    echo -n (set_color -b brred)
+    echo -n (set_color -r)
   end
 end
