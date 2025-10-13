@@ -14,6 +14,8 @@ set encoding=utf-8
 "" EXPERIMENTAL {{{
 set noequalalways
 
+let g:netrw_keepdir = 0
+
 " temporary disable trouble plugin
 
 "" }}}
@@ -44,6 +46,7 @@ nmap <Leader>f :let @/=expand("%:t") <Bar> execute 'Lexplore' expand("%:h") <Bar
 " nnoremap j jzz
 " nnoremap k kzz
 set scrolloff=9999
+set sidescrolloff=10
 
 vmap < <gv
 vmap > >gv
@@ -83,13 +86,14 @@ set cursorline
 set colorcolumn=90
 " hi CursorColumn ctermbg=gray ctermfg=black
 " hi CursorLine ctermbg=lightgray ctermfg=black
+
 highlight Normal ctermbg=NONE guibg=NONE
 highlight NormalNC ctermbg=NONE guibg=NONE
 highlight EndOfBuffer ctermbg=NONE guibg=NONE
-"hi Cursor ctermbg=magenta ctermfg=magenta
-"hi Visual cterm=reverse ctermbg=black
-"hi Folded ctermbg=None ctermfg=lightgrey
-"hi FoldColumn ctermbg=None ctermfg=lightgrey
+" hi Cursor ctermbg=magenta ctermfg=magenta
+" hi Visual cterm=reverse ctermbg=black
+" hi Folded ctermbg=None ctermfg=lightgrey
+" hi FoldColumn ctermbg=None ctermfg=lightgrey
 "" highlight OverLength ctermbg=red
 "" match OverLength /\%89v.\+/
 "highlight ExtraWhitespace cterm=bold ctermfg=red
@@ -103,6 +107,49 @@ highlight EndOfBuffer ctermbg=NONE guibg=NONE
 
 " Press Space to turn off highlighting and clear any message already displayed.
 nnoremap <silent> <space> :nohlsearch<Bar>:echo<CR>
+let base16colorspace=256  " Access colors present in 256 colorspace
+colorscheme tomorrow-night
+
+"" }}}
+"" QUICKFIX NAVIGATION {{{
+" Quickfix list navigation
+nnoremap ]q :cnext<CR>
+nnoremap [q :cprevious<CR>
+
+" Location list navigation
+nnoremap ]l :lnext<CR>
+nnoremap [l :lprevious<CR>
+
+" Toggle quickfix window
+function! ToggleQuickfix()
+  if empty(filter(getwininfo(), 'v:val.quickfix'))
+    copen
+  else
+    cclose
+  endif
+endfunction
+nnoremap <leader>q :call ToggleQuickfix()<CR>
+
+" Toggle location list window
+function! ToggleLocationList()
+  if empty(filter(getwininfo(), 'v:val.loclist'))
+    lopen
+  else
+    lclose
+  endif
+endfunction
+nnoremap <leader>l :call ToggleLocationList()<CR>
+
+" Auto-open quickfix window when populated
+augroup quickfix_auto_open
+  autocmd!
+  autocmd QuickFixCmdPost [^l]* cwindow
+  autocmd QuickFixCmdPost l* lwindow
+augroup END
+
+" Quickfix window settings
+autocmd FileType qf setlocal winheight=10
+autocmd FileType qf set nobuflisted
 
 "" }}}
 "" FOLDING, WRAPPING, FORMATTING {{{
@@ -154,9 +201,9 @@ let g:netrw_liststyle = 3
 let g:netrw_winsize = 20
 let g:netrw_altv = 1
 " open directory of current file - just like :Sex but in left split
-" nmap <C-B> :Lexplore `dirname %`<CR>
+" nmap <C-G> :Lexplore `dirname %`<CR>
+nmap <C-G> :Vexplore!<CR>
 nmap <C-B> :Lexplore<CR>
-" nmap <C-B> :Vexplore<CR>
 
 "" }}}
 
@@ -208,6 +255,41 @@ for _, lsp in ipairs(servers) do
     }
   }
 end
+
+vim.keymap.set('n', 'ge', function()
+  local qf_open = false
+  for _, win in ipairs(vim.fn.getwininfo()) do
+    if win['quickfix'] == 1 then
+      qf_open = true
+      break
+    end
+  end
+
+  if qf_open then
+    vim.cmd('cclose')
+  else
+    vim.diagnostic.setqflist({
+      open = true,
+      severity = { min = vim.diagnostic.severity.WARN },
+    })
+  end
+end, { desc = 'Show errors and warnings in quickfix list' })
+
+vim.api.nvim_create_autocmd("DiagnosticChanged", {
+  callback = function()
+    vim.diagnostic.setqflist({
+      open = false,
+      severity = { min = vim.diagnostic.severity.WARN },
+    })
+  end,
+})
+
+vim.keymap.set('n', '<c-e>', function()
+  vim.diagnostic.open_float(nil, {
+    scope = "line",
+    focusable = true,
+  })
+end, { desc = 'Show diagnostics for current line' })
 EOF
 
 " format on save
@@ -225,7 +307,7 @@ autocmd BufWritePre *.go lua vim.lsp.buf.format()
 " lua require('lsp-status/diagnostics')
 
 lua << END
-require'lualine'.setup {
+require 'lualine'.setup {
   options = {
     icons_enabled = true,
     theme = 'auto',
@@ -260,18 +342,34 @@ END
 "" }}}
 
 "" telescope {{{{
-lua require('telescope')
+
+lua << END
+require('telescope').setup({
+  defaults = {
+    color_devicons = true,
+    sorting_strategy = "ascending",
+    borderchars = { "", "", "", "", "", "", "", "" },
+    path_display = "smart",
+    layout_strategy = "horizontal",
+    layout_config = {
+      width = 400,
+      height = 100,
+      prompt_position = "top",
+    },
+  }
+})
+END
+
 nnoremap ff <cmd>Telescope find_files<cr>
 nnoremap fg <cmd>Telescope live_grep<cr>
 nnoremap fb <cmd>Telescope buffers<cr>
-
 
 nnoremap gr <cmd>Telescope lsp_references<cr>
 nnoremap gi <cmd>Telescope lsp_implementations<cr>
 nnoremap gd <cmd>Telescope lsp_definitions<cr>
 nnoremap gt <cmd>Telescope lsp_type_definitions<cr>
 nnoremap gs <cmd>Telescope lsp_document_symbols<cr>
-nnoremap ge <cmd>Telescope diagnostics<cr>
+" nnoremap ge <cmd>Telescope diagnostics<cr> -- use LSP instead
 
 "" }}}
 
@@ -280,15 +378,10 @@ nnoremap ge <cmd>Telescope diagnostics<cr>
 
 "" }}}
 
-"" trouble {{{
-" lua require("trouble")
-
-"" }}}
-
 "" git-blame {{{
 
 let g:gitblame_enabled = 0
-let g:gitblame_virtual_text_column = 50
+let g:gitblame_virtual_text_column = 70
 
 "" }}}
 
