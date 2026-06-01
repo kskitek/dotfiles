@@ -47,6 +47,6 @@ notify_on_cmd_finish invisible
 notify_on_cmd_finish invisible 20
 
 # BEGIN_KITTY_THEME
-# Zenburn
+# 1984 Dark
 include current-theme.conf
 # END_KITTY_THEME

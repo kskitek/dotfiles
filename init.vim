@@ -11,10 +11,12 @@ set encoding=utf-8
 " In case something is fundamentally not working check if vim is linked.
 " Next step is to comment out all experimental options and check your plugins.
 
-"" EXPERIMENTAL {{{
+"" {{{ EXPERIMENTAL
 set noequalalways
 
 let g:netrw_keepdir = 0
+
+set conceallevel=2
 
 " temporary disable trouble plugin
 
@@ -234,6 +236,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
     vim.keymap.set('n', '<C-r>', vim.lsp.buf.rename, opts)
+    vim.keymap.set('n', '<C-c>', vim.lsp.buf.code_action, opts)
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
     -- vim.keymap.set('n', '<C-q>', vim.diagnostic.setloclist, opts)
@@ -374,5 +377,24 @@ let g:gitblame_enabled = 0
 let g:gitblame_virtual_text_column = 70
 
 "" }}}
+
+""" {{{ vim-markdown
+
+let g:vim_markdown_conceal = 1 "" this needs set conceallevel=2
+autocmd FileType markdown setlocal foldmethod=expr
+autocmd FileType markdown setlocal foldexpr=vim_markdown#fold()
+
+autocmd FileType markdown setlocal spell
+
+""" }}}
+
+"" }}}
+"" {{{ FT
+
+autocmd BufNewFile,BufRead *.{yaml,yml} set filetype=yaml
+autocmd BufNewFile,BufRead *.yaml.f2 setlocal filetype=yaml
+autocmd FileType yaml setlocal filetype=yaml foldmethod=indent foldnestmax=20
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
 
 "" }}}

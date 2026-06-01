@@ -8,7 +8,7 @@ function kd
     echo -n "$name" | copy
     kubectl get $resource $name -o yaml | bat -l yaml
   else
-    set name (kubectl get $resource | ag $lookingForName | head -n 1 | cut -f 1 -d ' ')
+    set name (kubectl get $resource | rg $lookingForName | head -n 1 | cut -f 1 -d ' ')
     kubectl get $resource $name -o yaml | bat -l yaml
   end
 end

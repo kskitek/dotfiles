@@ -17,8 +17,9 @@ set -x GOPRIVATE 'gitlab.com/lerta/*,gitlab.com/cloudthing/*,github.com/nobl9/*,
 set -x GIT_TERMINAL_PROMPT 1
 
 ## PATH
-set -U fish_user_paths /usr/local/bin ~/.scripts ~/.dotfiles/scripts/ ~/go/bin ~/.dotfiles/scripts/kubetail/kubetail ~/tools/kubetail ~/.cargo/bin ~/tools/**/bin ~/tools/helm
+set -U fish_user_paths /usr/local/bin ~/.scripts ~/.dotfiles/scripts/ ~/go/bin ~/.dotfiles/scripts/kubetail/kubetail ~/tools/kubetail ~/.cargo/bin ~/tools/helm ~/tools/*/bin
 set -gx PATH $PATH $HOME/.krew/bin
+# removed ~/tools/**/bin from the PATH because it was referencing tools/paru/src/paru-2.1.0/testdata/bin/pacman
 
 set -x BC_ENV_ARGS ~/.dotfiles/bc
 set -x GIT_TERMINAL_PROMPT 1

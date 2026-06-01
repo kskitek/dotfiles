@@ -10,8 +10,8 @@ function fish_prompt
   test $status = 0
   and echo -n ' 🌱'(set_color yellow)$branch
 
-  __context_color
-  __context_square
+  # __context_color
+  # __context_square
   __jobs_count
   echo -n (set_color cyan)'λ '(set_color normal)
 end
@@ -24,6 +24,7 @@ end
 function __context_square
   echo -n ' '
 
+  # TODO ignore errorsand leave early
   set k8s (kubectl config current-context)
   set ns (kubectl config view --minify --output 'jsonpath={..namespace}')
   echo -n (set_color blue)🧊$k8s'('(set_color white)$ns(set_color blue)')'

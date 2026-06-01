@@ -18,6 +18,9 @@ abbr -a notfirst tail -n +2
 abbr -a notlast head -n -1
 
 abbr -a nv nvim
+abbr -a cc claude
+abbr -a ccc "~/.c && claude"
+abbr -a oc opencode
 
 abbr mpv "mpv --vo=gpu --hwdec=videotoolbox --window-scale=0.5 --ontop " # vo=libmpv
 
