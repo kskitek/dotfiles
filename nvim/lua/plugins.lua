@@ -1,17 +1,9 @@
 return {
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
-  { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
-  -- { "edolphin-ydf/goimpl.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
-  -- TODO check if you want it. See https://github.com/nvim-neotest/neotest
-  -- { "nvim-neotest/neotest",
-  --   dependencies = {
-  --     "nvim-neotest/nvim-nio",
-  --     "nvim-lua/plenary.nvim",
-  --     "antoinemadec/FixCursorHold.nvim",
-  --     "nvim-treesitter/nvim-treesitter"
-  --   }
-  -- },
-  -- TODO setup it
+  { 
+    "nvim-telescope/telescope.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" }
+  },
   { "neovim/nvim-lspconfig",
     config = function()
       require("config.lsp").setup()
@@ -36,7 +28,14 @@ return {
       end
       return true
     end,
-  }
+  },
+  { "mfussenegger/nvim-dap" },
+  { 
+    "rcarriga/nvim-dap-ui",
+    dependencies = { "nvim-neotest/nvim-nio" }
+  },
+  { "leoluz/nvim-dap-go" },
+  { "rinx/nvim-dap-rego" }
   -- {"hrsh7th/cmp-nvim-lsp"},
   -- {"hrsh7th/cmp-buffer"},
   -- {"hrsh7th/cmp-path"},

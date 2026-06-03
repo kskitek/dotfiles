@@ -211,19 +211,13 @@ nmap <C-B> :Lexplore<CR>
 
 "" LSP {{{
 lua << EOF
-local servers = {
-  pyright = {},
-  gopls = {},
-  ts_ls = {},
-  elmls = {},
-}
 
-for name, config in pairs(servers) do
-  vim.lsp.config[name] = vim.tbl_extend('force', config, {
-    cmd = { name },
-    root_markers = { '.git' },
-  })
-end
+vim.lsp.enable('pyright')
+vim.lsp.enable('gopls')
+vim.lsp.enable('ts_ls')
+vim.lsp.enable('elmls')
+vim.lsp.enable('terraformls')
+vim.lsp.enable('regal')
 
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
@@ -243,8 +237,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- vim.keymap.set('n', '<C-f>', vim.lsp.buf.format, opts)
   end,
 })
-
-vim.lsp.enable(vim.tbl_keys(servers))
 
 vim.keymap.set('n', 'ge', function()
   local qf_open = false
@@ -291,6 +283,8 @@ autocmd BufWritePre *.go lua vim.lsp.buf.format()
 autocmd BufWritePre *.java lua vim.lsp.buf.format()
 autocmd BufWritePre *.kt lua vim.lsp.buf.format()
 autocmd BufWritePre *.scala lua vim.lsp.buf.format()
+autocmd BufWritePre *.tf lua vim.lsp.buf.format()
+autocmd BufWritePre *.rego lua vim.lsp.buf.format()
 
 "" }}}
 
@@ -386,6 +380,77 @@ autocmd FileType markdown setlocal foldexpr=vim_markdown#fold()
 
 autocmd FileType markdown setlocal spell
 
+""" }}}
+
+""" {{{ DAP
+lua << EOF
+local dap = require 'dap'
+local dapui = require 'dapui'
+require('dap-rego').setup()
+
+
+-- :h dapui.setup() to see all available layout options
+dapui.setup {
+    layouts = { {
+        elements = { {
+            id = "breakpoints",
+            size = 0.15
+          }, {
+            id = "scopes",
+            size = 0.35
+          }, {
+            id = "stacks",
+            size = 0.35
+          }, {
+            id = "watches",
+            size = 0.15
+          } },
+        position = "left",
+        size = 40
+      }
+    },
+}
+
+vim.api.nvim_set_hl(0, 'DapBreak', { fg = '#e51400' })
+vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
+
+local breakpoint_icons = {
+  Breakpoint = '●',
+  BreakpointCondition = '⊜',
+  BreakpointRejected = '⊘',
+  LogPoint = '◆',
+  Stopped = '⭔'
+}
+for type, icon in pairs(breakpoint_icons) do
+   local tp = 'Dap' .. type
+   local hl = (type == 'Stopped') and 'DapStop' or 'DapBreak'
+   vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
+ end
+
+dap.listeners.after.event_initialized['dapui_config'] = dapui.open
+dap.listeners.before.event_terminated['dapui_config'] = dapui.close
+dap.listeners.before.event_exited['dapui_config'] = dapui.close
+
+vim.keymap.set('n', '<F5>', dap.continue)
+vim.keymap.set('n', '<F6>', dap.step_into)
+vim.keymap.set('n', '<F7>', dap.step_over)
+vim.keymap.set('n', '<F8>', dap.step_out)
+vim.keymap.set('n', '<space>b', dap.toggle_breakpoint)
+vim.keymap.set('n', '<space>B', function() dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ') end)
+vim.keymap.set('n', '<F10>', dapui.toggle)
+vim.keymap.set('n', '<space>?', function() dapui.eval(nil, {enter = true}) end)
+
+require('dap-go').setup {
+  dap_configurations = {
+    {
+      type = "go",
+      name = "Attach remote",
+      mode = "remote",
+      request = "attach",
+    },
+  },
+}
+EOF
 """ }}}
 
 "" }}}
